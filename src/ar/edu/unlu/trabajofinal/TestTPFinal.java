@@ -5,13 +5,14 @@ import ar.edu.unlu.mazo.*;
 public class TestTPFinal {
 
 	public static void main(String[] args) {
-		MazoDeNaipes m = new MazoDeNaipes();
-		Carta cartita = m.agarrarCarta();
+
 		Carta as = new Carta(Palo.PICA, ContenidoDeCarta.AS);
+		Carta cartita = new Carta(Palo.PICA, ContenidoDeCarta.NUEVE);
 		Crupier crup = new Crupier();
 		JugadorBJ player = new JugadorBJ("a", 10000);
-		
-		player.addCarta(cartita);
+			
+		// Test de apuestas
+		/*
 		System.out.println(player.getDinero());
 		player.apostar(1000);
 		System.out.println(player.getDinero());
@@ -21,15 +22,17 @@ public class TestTPFinal {
 		System.out.println(player.getDinero());
 		player.cobrar();
 		System.out.println(player.getDinero());
+		*/
 		
 		player.addCarta(as);
-		player.addCarta(as);
-		
-		System.out.println(crup.calcPuntaje(player));
-		System.out.println(cartita.getDesc());
-		
+		player.addCarta(cartita);
+		//player.addCarta(cartita);
 
-	    
+		
+		System.out.println();
+		System.out.println(crup.calcPuntaje(player));
+		System.out.println(crup.getEstado(player));
+		System.out.println();
 	}
 
 }

@@ -8,16 +8,12 @@ public class ConjuntoDeCartas {
 	private int tam;
 	
 	public ConjuntoDeCartas(int tam) {
-
 		this.setTam(tam);
 		this.cartas = new ArrayList<Carta>(tam);
-		
 	}
 	
-	public void addCarta(Carta carta) {
-		
+	public void addCarta(Carta carta) {	
 		this.cartas.add(carta);
-		
 	}
 
 	public ArrayList<Carta> getCartas() {
@@ -33,13 +29,10 @@ public class ConjuntoDeCartas {
 	}
 	
 	public void clear() {
-		
 		this.cartas.clear();
-
 	}
 
 	public boolean contains(ContenidoDeCarta carta) {
-		
 		boolean res = false;
 		
 		for (Carta cartita : this.cartas) {
@@ -52,8 +45,33 @@ public class ConjuntoDeCartas {
 			
 		}
 		
-		return res;
-		
+		return res;	
 	}
 	
+	public int size() {
+		return this.cartas.size();
+	}
+	
+	// Retorna una array ordenado de forma descendente con las cartas del conjunto.
+	public ArrayList<Carta> sort() {
+		ArrayList<Carta> res = this.getCartas();
+		int largo = this.size();
+		
+		for (int i = 0; i < largo; i++) {
+			for (int e = 0; e < (largo - 1); e++) {
+				if (res.get(e).getValor() < res.get(e+1).getValor()) {
+					this.intercambiar(res, e, e+1);
+				}
+			}
+			largo--;
+		}
+		
+		return res;
+	}
+	
+	private void intercambiar(ArrayList<Carta> array, int indexA, int indexB) {
+		Carta cartaAux = array.get(indexA);
+		array.set(indexA, array.get(indexB));
+		array.set(indexB, cartaAux);
+	}
 }

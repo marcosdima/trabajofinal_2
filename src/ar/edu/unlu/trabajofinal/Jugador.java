@@ -14,6 +14,10 @@ public class Jugador extends Persona {
 		
 	}
 	
+	public ConjuntoDeCartas getMano() {
+		return this.mano;
+	}
+	
 	public ArrayList<Carta> getCartas() {
 		return this.mano.getCartas();
 	}
@@ -31,6 +35,6 @@ public class Jugador extends Persona {
 	}
 	
 	public int cantidadDeCartas() {
-		return this.mano.getTam();
+		return this.mano.size();
 	}
 }

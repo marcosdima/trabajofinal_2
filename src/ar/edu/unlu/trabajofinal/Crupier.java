@@ -9,17 +9,16 @@ public class Crupier extends Jugador {
 	// private BlackJack mesa;
 	
 	public Crupier() {
-		super("Crupier", 0);
-		
+		super("Crupier", 0);	
 	}
 	
+	// Calcula el puntaje de un jugador.
 	public int calcPuntaje(Jugador player) {
 		int puntaje = 0;
 		ContenidoDeCarta content = null;
 		
-		for (Carta carta : player.getCartas()) {
+		for (Carta carta : player.getMano().sort()) {
 			content = carta.getContenido();
-			
 			if (content == ContenidoDeCarta.AS) {
 				if (puntaje >= 11) {
 					puntaje += 1;
@@ -39,20 +38,22 @@ public class Crupier extends Jugador {
 		return puntaje;
 	}
 	
+	// Le da una carta a un jugador.
 	public void darCarta(Jugador player) {
 		Carta cartita = this.mazo.agarrarCarta();
 		player.addCarta(cartita);
 	}
 
+	// Mezcla el mazo.
 	public void barajar() {
 		this.mazo.barajar();
 	}
 	
+	// Retorna el estado de la mano de un jugador.
 	public EstadoDeMano getEstado(Jugador player) {
 		EstadoDeMano res = null;
 		int puntaje = this.calcPuntaje(player);
-		int cantDeCartas = player.cantidadDeCartas();
-		boolean primeraMano = (cantDeCartas == 2);
+		boolean primeraMano = (player.cantidadDeCartas() == 2);
 		boolean puntaje21 = (puntaje == 21);
 		
 		if (primeraMano && puntaje21) {

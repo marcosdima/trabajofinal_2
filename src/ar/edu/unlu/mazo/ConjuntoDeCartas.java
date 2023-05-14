@@ -36,13 +36,9 @@ public class ConjuntoDeCartas {
 		boolean res = false;
 		
 		for (Carta cartita : this.cartas) {
-			
 			if (cartita.getLabel() == carta.getLabel()) {
-				
-				res = true;
-				
+				res = true;	
 			}
-			
 		}
 		
 		return res;	

@@ -11,8 +11,11 @@ public class Apuesta {
 	}
 	
 	public void gano(int porcentajeDeGanancia) {
-		this.ganancia = (this.monto * porcentajeDeGanancia) / 100;
-
+		this.ganancia = ((this.monto * porcentajeDeGanancia) / 100) + this.monto;
+	}
+	
+	public void empato() {
+		this.ganancia = this.monto;
 	}
 	
 	public float getGanancia() {
@@ -21,15 +24,5 @@ public class Apuesta {
 
 	public String getApostador() {
 		return this.apostador;
-	}
-	
-	public int getGananciaTotal() {
-		int gananciaTotal = 0;
-		
-		if (this.ganancia > 0) {
-			gananciaTotal = (int) this.ganancia + this.monto;
-		}
-		
-		return gananciaTotal;
 	}
 }

@@ -38,10 +38,17 @@ public class Crupier extends Jugador {
 		return puntaje;
 	}
 	
-	// Le da una carta a un jugador.
+	// Le da una carta a un jugador. (Por defecto la visibilidad es false)
 	public void darCarta(Jugador player) {
 		Carta cartita = this.mazo.agarrarCarta();
 		player.addCarta(cartita);
+	}
+	
+	// Le da una carta a un jugador.
+	public void darCarta(Jugador player, boolean esVisible) {
+			Carta cartita = this.mazo.agarrarCarta();
+			cartita.setVisibilidad(esVisible);
+			player.addCarta(cartita);
 	}
 
 	// Mezcla el mazo.
@@ -70,5 +77,54 @@ public class Crupier extends Jugador {
 		}
 		
 		return res;
+	}
+
+	// Rutina para dar las primeras dos cartas.
+	public void primeraMano(Jugador player) {
+		this.darCarta(player, true);
+		this.darCarta(player);
+	}
+	
+	// Descubre las cartas dadas vuelta.
+	public void mostrar(Jugador player) {
+		for (Carta c : player.getCartas()) {
+			c.setVisibilidad(true);
+		}
+	}
+
+	public void determinarGanancia(JugadorBJ player) {
+		EstadoDeMano estadoDeJugador = this.getEstado(player);
+		EstadoDeMano estadoPropio = this.getEstado(this);
+		int puntajeDeJugador = this.calcPuntaje(player);
+		int puntajePropio = this.calcPuntaje(this);
+		
+		switch(estadoDeJugador) {
+		case BLACKJACK:
+			if (estadoPropio == EstadoDeMano.BLACKJACK) {
+				player.empate();
+			}
+			else {
+				player.blackjack();
+			}
+			break;
+		case IGUALA21:
+			if (estadoDeJugador == estadoPropio) {
+				player.empate();
+			}
+			else {
+				player.gano();
+			}
+			break;
+		case MENORA21:
+			if (puntajeDeJugador > puntajePropio) {
+				player.gano();
+			}
+			else if (puntajeDeJugador == puntajePropio) {
+				player.empate();
+			}
+			break;
+		default:
+			break;		
+		}
 	}
 }

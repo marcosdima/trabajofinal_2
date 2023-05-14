@@ -7,11 +7,9 @@ public class Carta {
 	private boolean visible;
 	
 	public Carta(Palo palo, ContenidoDeCarta cartita) {
-
 		this.setContenido(cartita);
 		this.setPaloDeCarta(palo);
 		this.setVisibilidad(false);
-		
 	}
 
 	public Palo getPaloDeCarta() {
@@ -33,33 +31,23 @@ public class Carta {
 	}
 	
 	public boolean esVisible() {
-		
 		return this.visible;
-		
 	}
 
 	public String getLabel() {
-		
 		return this.contenido.getLabel();
-		
 	}
 	
-	public String getDesc() {
-		
+	public String getDesc() {	
 		/* Seteo la variable desc para que devuevla el formato:
 		 * 'Label' de 'Palo'
 		 * */
-		
 		String desc = this.getLabel() + " de " + this.paloDeCarta;
-		
 		return desc;
-		
 	}
 	
 	public ContenidoDeCarta getContenido() {
-		
 		return this.contenido;
-		
 	}
 
 	public void setContenido(ContenidoDeCarta contenido) {

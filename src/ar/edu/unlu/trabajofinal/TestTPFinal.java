@@ -33,6 +33,10 @@ public class TestTPFinal {
 		System.out.println(crup.calcPuntaje(player));
 		System.out.println(crup.getEstado(player));
 		System.out.println();
+		
+		BlackJack bj = new BlackJack();
+		bj.newPlayer("Carlos");
+		bj.start();
 	}
 
 }

@@ -3,9 +3,9 @@ package ar.edu.unlu.trabajofinal;
 public class Persona {
 
 	private String nombre;
-	private int dinero;
+	private float dinero;
 
-	public Persona(String nombre, int dinero) {
+	public Persona(String nombre, float dinero) {
 		this.setNombre(nombre);
 		this.setDinero(dinero);
 	}
@@ -18,19 +18,19 @@ public class Persona {
 		this.nombre = nombre;
 	}
 
-	public int getDinero() {
+	public float getDinero() {
 		return dinero;
 	}
 
-	public void setDinero(int dinero) {
+	public void setDinero(float dinero) {
 		this.dinero = dinero;
 	}
 
-	public void giveDinero(int monto) {
+	public void giveDinero(float monto) {
 		this.dinero += monto;
 	}
 	
-	public boolean pagar(int monto) {
+	public boolean pagar(float monto) {
 		boolean pago = false;
 		
 		if (this.getDinero() > monto) {

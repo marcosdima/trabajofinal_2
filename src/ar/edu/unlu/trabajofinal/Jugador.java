@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import ar.edu.unlu.mazo.Carta;
 import ar.edu.unlu.mazo.ConjuntoDeCartas;
 
-public class Jugador extends Persona {
+public class Jugador extends Persona implements IJugador {
 	private ConjuntoDeCartas mano = new ConjuntoDeCartas(7);
 	private int id = 0;
 	
@@ -32,6 +32,10 @@ public class Jugador extends Persona {
 
 	public int getID() {
 		return this.id;
+	}
+	
+	public void setID(int id) {
+		this.id = id;
 	}
 	
 	public int cantidadDeCartas() {

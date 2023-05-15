@@ -2,6 +2,7 @@ package ar.edu.unlu.trabajofinal;
 
 import java.util.ArrayList;
 import java.util.Queue;
+import ar.edu.unlu.mov.Controlador;
 import java.util.LinkedList;
 
 public class BlackJack {
@@ -11,34 +12,33 @@ public class BlackJack {
 	private Crupier crupier;
 	private ArrayList<JugadorBJ> players;
 	private Queue<JugadorBJ> listaDeEspera;
+	private Controlador cc;
 
 	public BlackJack() {
 		this.crupier = new Crupier();
 		this.setPlayers();
 		this.setListaDeEspera();
 	}
-
-	// Rutina para iniciar la mano.
-	public void start() {
-		this.ingresarListaDeEspera();
-		this.primeraMano();
-		this.apuestas();
-	}
 	
 	// Si no esta lleno, carga un nuevo jugador a la lista de espera.
 	public int newPlayer(String name) {
 		JugadorBJ newPlayer = null;
+		int idAux = -1;
+		
 		if (!this.full()) {
 			newPlayer = new JugadorBJ(name, this.MONTOINICIAL);
 			this.listaDeEspera.add(newPlayer);
+			idAux = newPlayer.getID();
 		}
-		return newPlayer.getID();
+		
+		return idAux;
 	}
 	
 	// Registra la apuesta del jugador con el id dado.s
 	public void registrarApuesta(float monto, int idPlayer) {
 		JugadorBJ playerAux = this.pickAPlayer(idPlayer);
 		playerAux.apostar(monto);
+		this.apuestas();
 	}
 	
 	// Rutina para repartir a los jugadores.
@@ -90,16 +90,40 @@ public class BlackJack {
 	// Notifica a los observadores pasandole el objeto data.
 	public void notificar(Data<IJugador> data) {
 		// this.notificarObservadores(data);
-		System.out.println(data.info().getID());
+		this.cc.update(data);
 	}
 	
 	// Retorna true si esta lleno, false en caso contrario.
+
+	// Método que se utiliza para iniciar el juego en caso de que sea el primer jugador en ingresar.
+	public void tryToStart() {
+		System.out.println("Llegó...");
+		if (this.players.size() == 0) {
+			this.start();
+		}
+	}
+	
+	// Provisorio.
+	public void setCC(Controlador cc) {
+		this.cc = cc;
+	}
+	
+	// Rutina para iniciar la mano. Este start es peligroso, debería ser privado.
+	private void start() {
+		this.ingresarListaDeEspera();
+		this.primeraMano();
+		this.apuestas();
+	}
+
+	// Retorna true si se llenó la mesa.
 	private boolean full() {
 		int totalPlayers = this.players.size() + this.listaDeEspera.size();
 		return (totalPlayers >= this.MAXPLAYERS);
 	}
-	
+		
 	// Se reparte la primera mano.
+
+	// Reparte el inicio de la mano. NOMBRE A CAMBIAR.
 	private void primeraMano() {
 		for (Jugador player : this.players) {
 			this.crupier.primeraMano(player);
@@ -107,6 +131,8 @@ public class BlackJack {
 	}
 	
 	// Carga los jugadores de la lista de espera.
+	
+	// Carga los jugadores en lista de espera.
 	private void ingresarListaDeEspera() {
 		JugadorBJ playerAux = null;
 		
@@ -119,16 +145,22 @@ public class BlackJack {
 	}
 	
 	// Setter del array de players.
+	
+	// Setter del arraylist 'players'.
 	private void setPlayers() {
 		this.players = new ArrayList<JugadorBJ>(this.MAXPLAYERS);
 	}
 	
 	// Setter de la queue de lista de espera.
+	
+	// Setter de la queue 'listaDeEspera'.
 	public void setListaDeEspera() {
 		this.listaDeEspera = new LinkedList<JugadorBJ>();
 	}
 
 	// Rutina para que player juegue su mano.
+	
+	// Se fija la condición de la mano de 'player'.
 	private void turnoDe(JugadorBJ player) {
 		EstadoDeMano estado = this.crupier.getEstado(player);
 		boolean primeraMano = (player.cantidadDeCartas() == 2);
@@ -136,6 +168,7 @@ public class BlackJack {
 		
 		if (primeraMano) {
 			this.crupier.mostrar(player);
+			
 			if (estado == EstadoDeMano.BLACKJACK) {
 				flagTerminoTurno = true;
 			}
@@ -156,16 +189,18 @@ public class BlackJack {
 				break;
 			default:
 				break;
-			}
-			
+			}	
 		}
 		
 		if (flagTerminoTurno) {
+			player.terminoTurno();
 			this.repartir();
 		}
 	} 
 
 	// Determina las ganancias y reinicia la mano.
+	
+	// Rutina para finalizar la mano. NO ESTA TERMINADO.
 	private void finalDeMano() {
 		for (JugadorBJ player : this.players) {
 			this.crupier.determinarGanancia(player);
@@ -175,6 +210,8 @@ public class BlackJack {
 	}
 
 	// Retorna el jugador con la id 'idPlayer'.
+	
+	// Selecciona al jugador que se corresponda con el 'idPlayer'.
 	private JugadorBJ pickAPlayer(int idPlayer) {
 		JugadorBJ playerAux = null;
 		

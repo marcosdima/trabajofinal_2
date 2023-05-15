@@ -1,6 +1,7 @@
 package ar.edu.unlu.trabajofinal;
 
 import ar.edu.unlu.mazo.*;
+import ar.edu.unlu.mov.*;
 
 public class TestTPFinal {
 
@@ -35,8 +36,9 @@ public class TestTPFinal {
 		System.out.println();
 		
 		BlackJack bj = new BlackJack();
-		bj.newPlayer("Carlos");
-		bj.start();
+		Controlador c = new Controlador(bj);
+	
+		c.startGame();
+		
 	}
-
 }

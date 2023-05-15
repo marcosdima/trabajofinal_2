@@ -2,8 +2,8 @@ package ar.edu.unlu.mov;
 
 public interface IVista {
 	public void menuPrincipal();
-	public void ingresoDeApuesta();
-	public void preguntaQuieroOtra();
+	public int ingresoDeApuesta();
+	public boolean preguntaQuieroOtra();
 	public void mostrarMesa();
-	public void formularioDeIngreso();
+	public String formularioDeIngreso();
 }

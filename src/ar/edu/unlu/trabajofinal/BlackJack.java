@@ -26,16 +26,17 @@ public class BlackJack {
 	}
 	
 	// Si no esta lleno, carga un nuevo jugador a la lista de espera.
-	public void newPlayer(String name) {
+	public int newPlayer(String name) {
 		JugadorBJ newPlayer = null;
 		if (!this.full()) {
 			newPlayer = new JugadorBJ(name, this.MONTOINICIAL);
 			this.listaDeEspera.add(newPlayer);
 		}
+		return newPlayer.getID();
 	}
 	
 	// Registra la apuesta del jugador con el id dado.s
-	public void registrarApuesta(int monto, int idPlayer) {
+	public void registrarApuesta(float monto, int idPlayer) {
 		JugadorBJ playerAux = this.pickAPlayer(idPlayer);
 		playerAux.apostar(monto);
 	}

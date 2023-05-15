@@ -1,11 +1,11 @@
 package ar.edu.unlu.trabajofinal;
 
 public class Apuesta {
-	private int monto = 0;
+	private float monto = 0;
 	private float ganancia = 0;
 	private String apostador = "";
 	
-	public Apuesta(int monto, String apostador) {
+	public Apuesta(float monto, String apostador) {
 		this.monto = monto;
 		this.apostador = apostador;
 	}

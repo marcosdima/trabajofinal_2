@@ -10,7 +10,7 @@ public class JugadorBJ extends Jugador {
 	}
 	
 	// Si puede, realiza una apuesta.
-	public void apostar(int monto) {
+	public void apostar(float monto) {
 		boolean flagPago = this.pagar(monto);
 	
 		if (flagPago) {

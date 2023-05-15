@@ -2,7 +2,7 @@ package ar.edu.unlu.trabajofinal;
 
 public class ApuestaBJ extends Apuesta {
 
-	public ApuestaBJ(int monto, String apostador) {
+	public ApuestaBJ(float monto, String apostador) {
 		super(monto, apostador);
 	}
 	

@@ -19,9 +19,12 @@ public abstract class Mazo extends ConjuntoDeCartas {
 		int tamanio = this.getTam();
 		int[] lista = random.randomList(tamanio);
 		Pila<Carta> contenedor = new Pila<Carta>(tamanio);
+		Carta cartaAux;
 		
 		for (int numero : lista) {
-			contenedor.apilar(this.getCartas().get(numero - 1));
+			cartaAux = this.getCartas().get(numero - 1);
+			cartaAux.setVisibilidad(false);
+			contenedor.apilar(cartaAux);
 		}
 		
 		this.setBaraja(contenedor);

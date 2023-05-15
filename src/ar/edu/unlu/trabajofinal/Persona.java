@@ -33,7 +33,7 @@ public class Persona {
 	public boolean pagar(float monto) {
 		boolean pago = false;
 		
-		if (this.getDinero() > monto) {
+		if (this.getDinero() >= monto) {
 			pago = true;
 			this.setDinero(this.getDinero() - monto);
 		}

@@ -70,4 +70,24 @@ public class ConjuntoDeCartas {
 		array.set(indexA, array.get(indexB));
 		array.set(indexB, cartaAux);
 	}
+	
+	// Retorna un array de strings con la info de las cartas del conjunto.
+	public String[] getArrayCartas() {
+		int size = this.size();
+		int contador = 0;
+		String[] cartas = new String[size];
+		
+		for (Carta cartita : this.getCartas()) {
+			if (cartita.esVisible()) {
+				cartas[contador] = cartita.getDesc();
+			}
+			else {
+				cartas[contador] = "Cubierta";
+			}
+			
+			contador++;
+		}
+		
+		return cartas;
+	}
 }

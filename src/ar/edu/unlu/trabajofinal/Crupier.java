@@ -7,6 +7,7 @@ import ar.edu.unlu.mazo.MazoDeNaipes;
 public class Crupier extends Jugador {
 	private MazoDeNaipes mazo = new MazoDeNaipes();
 	// private BlackJack mesa;
+	private EstadoDeMano estadoPropio;
 	
 	public Crupier() {
 		super("Crupier", 0);	
@@ -34,7 +35,9 @@ public class Crupier extends Jugador {
 				puntaje += carta.getValor();
 			}
 		}
-		 
+		
+		player.setPuntaje(puntaje);
+		
 		return puntaje;
 	}
 	
@@ -46,9 +49,9 @@ public class Crupier extends Jugador {
 	
 	// Le da una carta a un jugador.
 	public void darCarta(Jugador player, boolean esVisible) {
-			Carta cartita = this.mazo.agarrarCarta();
-			cartita.setVisibilidad(esVisible);
-			player.addCarta(cartita);
+		Carta cartita = this.mazo.agarrarCarta();
+		cartita.setVisibilidad(esVisible);
+		player.addCarta(cartita);
 	}
 
 	// Mezcla el mazo.
@@ -92,15 +95,19 @@ public class Crupier extends Jugador {
 		}
 	}
 
+	// Rutina que determina la ganancia que le corresponde al jugador.
 	public void determinarGanancia(JugadorBJ player) {
 		EstadoDeMano estadoDeJugador = this.getEstado(player);
-		EstadoDeMano estadoPropio = this.getEstado(this);
 		int puntajeDeJugador = this.calcPuntaje(player);
-		int puntajePropio = this.calcPuntaje(this);
+		
+		System.out.println("Estado de jugador: " + estadoDeJugador);
+		System.out.println("Estado propio: " + this.estadoPropio);
+		System.out.println("Puntaje de jugador: " + puntajeDeJugador);
+		System.out.println("Puntaje propio: " + this.getPuntaje());
 		
 		switch(estadoDeJugador) {
 		case BLACKJACK:
-			if (estadoPropio == EstadoDeMano.BLACKJACK) {
+			if (this.estadoPropio == EstadoDeMano.BLACKJACK) {
 				player.empate();
 			}
 			else {
@@ -108,7 +115,7 @@ public class Crupier extends Jugador {
 			}
 			break;
 		case IGUALA21:
-			if (estadoDeJugador == estadoPropio) {
+			if (estadoDeJugador == this.estadoPropio) {
 				player.empate();
 			}
 			else {
@@ -116,15 +123,36 @@ public class Crupier extends Jugador {
 			}
 			break;
 		case MENORA21:
-			if (puntajeDeJugador > puntajePropio) {
+			if (this.estadoPropio == EstadoDeMano.MAYORA21) {
 				player.gano();
 			}
-			else if (puntajeDeJugador == puntajePropio) {
+			else if (puntajeDeJugador > this.getPuntaje()) {
+				player.gano();
+			}
+			else if (puntajeDeJugador == this.getPuntaje()) {
 				player.empate();
 			}
 			break;
 		default:
 			break;		
 		}
+	}
+
+	// Rutina para repartirse sus propias cartas.
+	public void repartirASiMismo() {
+		this.mostrar(this);
+		this.estadoPropio = this.getEstado(this);
+		this.calcPuntaje(this);
+		
+		if ((estadoPropio == EstadoDeMano.MENORA21) && (this.getPuntaje() < 17)) {
+			this.darCarta(this, true);
+			this.repartirASiMismo();
+		}
+	}
+
+	public void reset() {
+		this.barajar();
+		this.setPuntaje(0);
+		this.vaciarMano();
 	}
 }

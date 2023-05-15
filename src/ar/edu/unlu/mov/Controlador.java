@@ -41,7 +41,7 @@ public class Controlador {
 	}
 
 	public void update(Data<IJugador> data) {
-		System.out.println(data.evento());
+		this.vistaPrincipal.mostrarMesa(this.modelo.infoDeMesa());
 		
 		if (this.id == data.remitente()) {
 			switch(data.evento()) {

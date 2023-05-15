@@ -1,7 +1,10 @@
 package ar.edu.unlu.mov;
 
+import java.util.ArrayList;
+
 import ar.edu.unlu.tools.Escaner;
 import ar.edu.unlu.tools.Print;
+import ar.edu.unlu.trabajofinal.IJugador;
 
 public class VistaConsola implements IVista {
 	private Escaner escaner;
@@ -44,9 +47,9 @@ public class VistaConsola implements IVista {
 	}
 
 	@Override
-	public void mostrarMesa() {
-		// TODO Auto-generated method stub
-		
+	public void mostrarMesa(ArrayList<IJugador> mesa) {
+		p.espacio();
+		this.printJugadores(mesa);
 	}
 
 	@Override
@@ -58,4 +61,34 @@ public class VistaConsola implements IVista {
 		return name;
 	}
 
+	private void printJugadores(ArrayList<IJugador> datos) {
+		int contador = 0;
+		int espacio = 25;
+		int size = datos.size();
+		String[] conjuntoNombres = new String[size];
+		ArrayList<String[]> conjuntoCartas = new ArrayList<String[]>(size);
+		String[] conjuntoPuntajes = new String[size];
+		String[] dinerillo = new String[size];
+
+		for (IJugador dato : datos) {
+			conjuntoNombres[contador] = dato.getNombre();
+			conjuntoCartas.add(dato.getArrayCartas());
+			conjuntoPuntajes[contador] = "Puntaje: " + String.valueOf(dato.getPuntaje());
+			
+			// No le agrega el dinero al crupier.
+			if (contador != (size - 1)) {
+				dinerillo[contador] = "Dinero: " + String.valueOf(dato.getDinero());
+			}
+			else {
+				dinerillo[contador] = "";	
+			}
+			contador++;
+		}
+		
+		p.printSeguido(conjuntoNombres, espacio);
+		p.printSeguido(conjuntoCartas, espacio);
+		p.printSeguido(conjuntoPuntajes, espacio);
+		p.printSeguido(dinerillo, espacio);
+		
+	}
 }

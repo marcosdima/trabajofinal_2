@@ -3,6 +3,7 @@ package ar.edu.unlu.trabajofinal;
 import java.util.ArrayList;
 import java.util.Queue;
 import ar.edu.unlu.mov.Controlador;
+
 import java.util.LinkedList;
 
 public class BlackJack {
@@ -38,6 +39,12 @@ public class BlackJack {
 	public void registrarApuesta(float monto, int idPlayer) {
 		JugadorBJ playerAux = this.pickAPlayer(idPlayer);
 		playerAux.apostar(monto);
+		
+		// Si el monto ingresado es 0, entonces saltea su turno.
+		if (monto == 0) {
+			playerAux.terminoTurno();
+		}
+		
 		this.apuestas();
 	}
 	
@@ -105,7 +112,21 @@ public class BlackJack {
 	// Dar a carta a player.
 	public void darCarta(int idPlayer) {
 		JugadorBJ playerAux = this.pickAPlayer(idPlayer);
-		this.crupier.darCarta(playerAux);
+		this.crupier.darCarta(playerAux, true);
+	}
+	
+	// Retorna la info de los jugadores de la mesa.
+	public ArrayList<IJugador> infoDeMesa() {
+		ArrayList<IJugador> datosDeJugadores = new ArrayList<IJugador>(this.players.size() + 1);
+		
+		for (JugadorBJ player : this.players) {
+			datosDeJugadores.add(player);
+		}
+		
+		// Por último, agrego al crupier para que quede en la última posición.
+		datosDeJugadores.add(this.crupier);
+		
+		return datosDeJugadores;	
 	}
 	
 	// Provisorio.
@@ -133,6 +154,7 @@ public class BlackJack {
 		for (Jugador player : this.players) {
 			this.crupier.primeraMano(player);
 		}
+		this.crupier.primeraMano(this.crupier);
 	}
 	
 	// Carga los jugadores de la lista de espera.
@@ -207,10 +229,13 @@ public class BlackJack {
 	
 	// Rutina para finalizar la mano. NO ESTA TERMINADO.
 	private void finalDeMano() {
+		this.crupier.repartirASiMismo();
 		for (JugadorBJ player : this.players) {
 			this.crupier.determinarGanancia(player);
+			player.cobrar();
 			player.reset();
 		}
+		this.crupier.reset();
 		this.start();
 	}
 

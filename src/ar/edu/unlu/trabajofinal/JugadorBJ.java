@@ -45,6 +45,7 @@ public class JugadorBJ extends Jugador {
 	public void reset() {
 		this.yaAposto = false;
 		this.yaJugo = false;
+		this.setPuntaje(0);
 		this.vaciarMano();
 	}
 	

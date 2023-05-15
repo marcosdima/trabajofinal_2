@@ -8,10 +8,10 @@ import ar.edu.unlu.mazo.ConjuntoDeCartas;
 public class Jugador extends Persona implements IJugador {
 	private ConjuntoDeCartas mano = new ConjuntoDeCartas(7);
 	private int id = 0;
+	private int puntaje = 0;
 	
 	public Jugador(String nombre, int dinero) {
 		super(nombre, dinero);
-		
 	}
 	
 	public ConjuntoDeCartas getMano() {
@@ -40,5 +40,17 @@ public class Jugador extends Persona implements IJugador {
 	
 	public int cantidadDeCartas() {
 		return this.mano.size();
+	}
+	
+	public int getPuntaje() {
+		return this.puntaje;
+	}
+	
+	public void setPuntaje(int pts) {
+		this.puntaje = pts;
+	} 
+	
+	public String[] getArrayCartas() {
+		return this.mano.getArrayCartas();
 	}
 }

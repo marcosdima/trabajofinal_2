@@ -31,6 +31,7 @@ public class Controlador {
 	}
 	
 	public void quieroOtraCarta() {
+		this.modelo.darCarta(this.id);
 		this.modelo.repartir();
 	}
 	
@@ -45,11 +46,10 @@ public class Controlador {
 		if (this.id == data.remitente()) {
 			switch(data.evento()) {
 			case SOLICITARAPUESTAS:
-				int monto = this.vistaPrincipal.ingresoDeApuesta();
-				
+				int monto = this.vistaPrincipal.ingresoDeApuesta();				
 				this.modelo.registrarApuesta(monto, data.remitente());
-				
 				break;
+
 			case PREGUNTARPORCARTA:
 				boolean flag = this.vistaPrincipal.preguntaQuieroOtra();
 				

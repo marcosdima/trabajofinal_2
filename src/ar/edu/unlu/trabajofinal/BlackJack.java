@@ -97,10 +97,15 @@ public class BlackJack {
 
 	// Método que se utiliza para iniciar el juego en caso de que sea el primer jugador en ingresar.
 	public void tryToStart() {
-		System.out.println("Llegó...");
 		if (this.players.size() == 0) {
 			this.start();
 		}
+	}
+	
+	// Dar a carta a player.
+	public void darCarta(int idPlayer) {
+		JugadorBJ playerAux = this.pickAPlayer(idPlayer);
+		this.crupier.darCarta(playerAux);
 	}
 	
 	// Provisorio.

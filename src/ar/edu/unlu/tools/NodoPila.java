@@ -1,27 +1,27 @@
 package ar.edu.unlu.tools;
 
 public class NodoPila<Cosa> {
-	
+
 	private Cosa elemento;
 	private NodoPila<Cosa> anterior;
-	
+
 	public NodoPila(Cosa elemento, NodoPila<Cosa> anterior) {
-		
+
 		this.setCosa(elemento);
 		this.setAnterior(anterior);
-		
+
 	}
-	
+
 	public NodoPila(Cosa dato) {
-		
+
 		this (dato, null);
-	
+
 	}
-	
+
 	public NodoPila() {
-		
+
 		this (null, null);
-		
+
 	}
 
 	public Cosa getElemento() {
@@ -39,33 +39,33 @@ public class NodoPila<Cosa> {
 	public void setAnterior(NodoPila<Cosa> anterior) {
 		this.anterior = anterior;
 	}
-	
+
 	public boolean esNulo() {
-		
+
 		boolean res = false;
-		
+
 		if (this.elemento == null) {
-			
+
 			res = true;
-			
+
 		}
-		
+
 		return res;
-		
+
 	}
-	
+
 	public boolean esInicial() {
-		
+
 		boolean res = false;
-		
+
 		if (this.anterior == null) {
-			
+
 			res = true;
-			
+
 		}
-		
+
 		return res;
-		
+
 	}
-	
+
 }

@@ -7,5 +7,5 @@ public interface IJugador {
 	public float getDinero();
 	public String[] getArrayCartas();
 	public int getPuntaje();
-	
+
 }

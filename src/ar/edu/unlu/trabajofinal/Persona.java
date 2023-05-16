@@ -29,15 +29,15 @@ public class Persona {
 	public void giveDinero(float monto) {
 		this.dinero += monto;
 	}
-	
+
 	public boolean pagar(float monto) {
 		boolean pago = false;
-		
+
 		if (this.getDinero() >= monto) {
 			pago = true;
 			this.setDinero(this.getDinero() - monto);
 		}
-		
+
 		return pago;
 	}
 }

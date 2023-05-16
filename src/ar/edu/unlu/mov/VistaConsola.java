@@ -10,13 +10,13 @@ public class VistaConsola implements IVista {
 	private Escaner escaner;
 	private Controlador controller;
 	private Print p;
-	
-	
+
+
 	public VistaConsola() {
 		this.escaner = new Escaner();
 		this.p = new Print();
 	}
-	
+
 	@Override
 	public void menuPrincipal() {
 		p.print("Menu principal");
@@ -33,7 +33,7 @@ public class VistaConsola implements IVista {
 		p.print("Ingresar apuesta: ");
 		int monto = this.escaner.nextInt();
 		p.espacio();
-		
+
 		return monto;
 	}
 
@@ -42,7 +42,7 @@ public class VistaConsola implements IVista {
 		p.print("¿Quieres una carta?");
 		boolean quiere = this.escaner.siONo();
 		p.espacio();
-		
+
 		return quiere;
 	}
 
@@ -57,7 +57,7 @@ public class VistaConsola implements IVista {
 		p.print("Ingresa un nombre: ");
 		String name = this.escaner.next();
 		p.espacio();
-		
+
 		return name;
 	}
 
@@ -66,7 +66,7 @@ public class VistaConsola implements IVista {
 		int espacio = 25;
 		int size = datos.size();
 		String[] conjuntoNombres = new String[size];
-		ArrayList<String[]> conjuntoCartas = new ArrayList<String[]>(size);
+		ArrayList<String[]> conjuntoCartas = new ArrayList<>(size);
 		String[] conjuntoPuntajes = new String[size];
 		String[] dinerillo = new String[size];
 
@@ -74,21 +74,21 @@ public class VistaConsola implements IVista {
 			conjuntoNombres[contador] = dato.getNombre();
 			conjuntoCartas.add(dato.getArrayCartas());
 			conjuntoPuntajes[contador] = "Puntaje: " + String.valueOf(dato.getPuntaje());
-			
+
 			// No le agrega el dinero al crupier.
 			if (contador != (size - 1)) {
 				dinerillo[contador] = "Dinero: " + String.valueOf(dato.getDinero());
 			}
 			else {
-				dinerillo[contador] = "";	
+				dinerillo[contador] = "";
 			}
 			contador++;
 		}
-		
+
 		p.printSeguido(conjuntoNombres, espacio);
 		p.printSeguido(conjuntoCartas, espacio);
 		p.printSeguido(conjuntoPuntajes, espacio);
 		p.printSeguido(dinerillo, espacio);
-		
+
 	}
 }

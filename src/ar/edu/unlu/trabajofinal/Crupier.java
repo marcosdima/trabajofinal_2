@@ -8,16 +8,16 @@ public class Crupier extends Jugador {
 	private MazoDeNaipes mazo = new MazoDeNaipes();
 	// private BlackJack mesa;
 	private EstadoDeMano estadoPropio;
-	
+
 	public Crupier() {
-		super("Crupier", 0);	
+		super("Crupier", 0);
 	}
-	
+
 	// Calcula el puntaje de un jugador.
 	public int calcPuntaje(Jugador player) {
 		int puntaje = 0;
 		ContenidoDeCarta content = null;
-		
+
 		for (Carta carta : player.getMano().sort()) {
 			content = carta.getContenido();
 			if (content == ContenidoDeCarta.AS) {
@@ -35,18 +35,18 @@ public class Crupier extends Jugador {
 				puntaje += carta.getValor();
 			}
 		}
-		
+
 		player.setPuntaje(puntaje);
-		
+
 		return puntaje;
 	}
-	
+
 	// Le da una carta a un jugador. (Por defecto la visibilidad es false)
 	public void darCarta(Jugador player) {
 		Carta cartita = this.mazo.agarrarCarta();
 		player.addCarta(cartita);
 	}
-	
+
 	// Le da una carta a un jugador.
 	public void darCarta(Jugador player, boolean esVisible) {
 		Carta cartita = this.mazo.agarrarCarta();
@@ -58,14 +58,14 @@ public class Crupier extends Jugador {
 	public void barajar() {
 		this.mazo.barajar();
 	}
-	
+
 	// Retorna el estado de la mano de un jugador.
 	public EstadoDeMano getEstado(Jugador player) {
 		EstadoDeMano res = null;
 		int puntaje = this.calcPuntaje(player);
 		boolean primeraMano = (player.cantidadDeCartas() == 2);
 		boolean puntaje21 = (puntaje == 21);
-		
+
 		if (primeraMano && puntaje21) {
 			res = EstadoDeMano.BLACKJACK;
 		}
@@ -78,7 +78,7 @@ public class Crupier extends Jugador {
 		else {
 			res = EstadoDeMano.MAYORA21;
 		}
-		
+
 		return res;
 	}
 
@@ -87,7 +87,7 @@ public class Crupier extends Jugador {
 		this.darCarta(player, true);
 		this.darCarta(player);
 	}
-	
+
 	// Descubre las cartas dadas vuelta.
 	public void mostrar(Jugador player) {
 		for (Carta c : player.getCartas()) {
@@ -99,12 +99,12 @@ public class Crupier extends Jugador {
 	public void determinarGanancia(JugadorBJ player) {
 		EstadoDeMano estadoDeJugador = this.getEstado(player);
 		int puntajeDeJugador = this.calcPuntaje(player);
-		
+
 		System.out.println("Estado de jugador: " + estadoDeJugador);
 		System.out.println("Estado propio: " + this.estadoPropio);
 		System.out.println("Puntaje de jugador: " + puntajeDeJugador);
 		System.out.println("Puntaje propio: " + this.getPuntaje());
-		
+
 		switch(estadoDeJugador) {
 		case BLACKJACK:
 			if (this.estadoPropio == EstadoDeMano.BLACKJACK) {
@@ -134,7 +134,7 @@ public class Crupier extends Jugador {
 			}
 			break;
 		default:
-			break;		
+			break;
 		}
 	}
 
@@ -143,7 +143,7 @@ public class Crupier extends Jugador {
 		this.mostrar(this);
 		this.estadoPropio = this.getEstado(this);
 		this.calcPuntaje(this);
-		
+
 		if ((estadoPropio == EstadoDeMano.MENORA21) && (this.getPuntaje() < 17)) {
 			this.darCarta(this, true);
 			this.repartirASiMismo();

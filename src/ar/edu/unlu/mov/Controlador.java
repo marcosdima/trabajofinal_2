@@ -31,6 +31,7 @@ public class Controlador {
 	}
 	
 	public void quieroOtraCarta() {
+		// Esto esta nefasto.
 		this.modelo.darCarta(this.id);
 		this.modelo.repartir();
 	}

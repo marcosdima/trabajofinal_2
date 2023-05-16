@@ -99,8 +99,6 @@ public class BlackJack {
 		// this.notificarObservadores(data);
 		this.cc.update(data);
 	}
-	
-	// Retorna true si esta lleno, false en caso contrario.
 
 	// Método que se utiliza para iniciar el juego en caso de que sea el primer jugador en ingresar.
 	public void tryToStart() {
@@ -146,8 +144,6 @@ public class BlackJack {
 		int totalPlayers = this.players.size() + this.listaDeEspera.size();
 		return (totalPlayers >= this.MAXPLAYERS);
 	}
-		
-	// Se reparte la primera mano.
 
 	// Reparte el inicio de la mano. NOMBRE A CAMBIAR.
 	private void primeraMano() {
@@ -158,8 +154,6 @@ public class BlackJack {
 	}
 	
 	// Carga los jugadores de la lista de espera.
-	
-	// Carga los jugadores en lista de espera.
 	private void ingresarListaDeEspera() {
 		JugadorBJ playerAux = null;
 		
@@ -172,21 +166,15 @@ public class BlackJack {
 	}
 	
 	// Setter del array de players.
-	
-	// Setter del arraylist 'players'.
 	private void setPlayers() {
 		this.players = new ArrayList<JugadorBJ>(this.MAXPLAYERS);
 	}
 	
 	// Setter de la queue de lista de espera.
-	
-	// Setter de la queue 'listaDeEspera'.
 	public void setListaDeEspera() {
 		this.listaDeEspera = new LinkedList<JugadorBJ>();
 	}
 
-	// Rutina para que player juegue su mano.
-	
 	// Se fija la condición de la mano de 'player'.
 	private void turnoDe(JugadorBJ player) {
 		EstadoDeMano estado = this.crupier.getEstado(player);
@@ -226,22 +214,21 @@ public class BlackJack {
 	} 
 
 	// Determina las ganancias y reinicia la mano.
-	
-	// Rutina para finalizar la mano. NO ESTA TERMINADO.
 	private void finalDeMano() {
 		this.crupier.repartirASiMismo();
+		
 		for (JugadorBJ player : this.players) {
+			this.notificar(new Data<IJugador>(Evento.FINDEMANO, player, player.getID()));
 			this.crupier.determinarGanancia(player);
 			player.cobrar();
 			player.reset();
 		}
+		
 		this.crupier.reset();
 		this.start();
 	}
 
 	// Retorna el jugador con la id 'idPlayer'.
-	
-	// Selecciona al jugador que se corresponda con el 'idPlayer'.
 	private JugadorBJ pickAPlayer(int idPlayer) {
 		JugadorBJ playerAux = null;
 		

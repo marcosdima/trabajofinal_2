@@ -48,8 +48,8 @@ public class VistaConsola implements IVista {
 
 	@Override
 	public void mostrarMesa(ArrayList<IJugador> mesa) {
-		p.espacio();
 		this.printJugadores(mesa);
+		p.espacio();
 	}
 
 	@Override

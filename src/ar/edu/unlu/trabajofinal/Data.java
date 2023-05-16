@@ -1,6 +1,9 @@
 package ar.edu.unlu.trabajofinal;
 
-public class Data<Info> {
+import java.io.Serializable;
+
+public class Data<Info> implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private Evento evento;
 	private Info informacion;
 	private int remitente;

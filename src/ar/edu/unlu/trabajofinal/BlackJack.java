@@ -1,19 +1,19 @@
 package ar.edu.unlu.trabajofinal;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import ar.edu.unlu.mov.Controlador;
+import ar.edu.unlu.rmimvc.observer.ObservableRemoto;
 
-public class BlackJack {
+public class BlackJack extends ObservableRemoto implements IModelo {
 	final private int MAXPLAYERS = 4;
 	final private int MONTOINICIAL = 1000;
 	private int cantPlayers = 0;
 	private Crupier crupier;
 	private ArrayList<JugadorBJ> players;
 	private Queue<JugadorBJ> listaDeEspera;
-	private Controlador cc;
 
 	public BlackJack() {
 		this.crupier = new Crupier();
@@ -22,7 +22,8 @@ public class BlackJack {
 	}
 
 	// Si no esta lleno, carga un nuevo jugador a la lista de espera.
-	public int newPlayer(String name) {
+	@Override
+	public int newPlayer(String name) throws RemoteException {
 		JugadorBJ newPlayer = null;
 		int idAux = -1;
 
@@ -36,7 +37,8 @@ public class BlackJack {
 	}
 
 	// Registra la apuesta del jugador con el id dado.s
-	public void registrarApuesta(float monto, int idPlayer) {
+	@Override
+	public void registrarApuesta(float monto, int idPlayer) throws RemoteException {
 		JugadorBJ playerAux = this.pickAPlayer(idPlayer);
 		playerAux.apostar(monto);
 
@@ -48,28 +50,76 @@ public class BlackJack {
 		this.apuestas();
 	}
 
-	// Rutina para repartir a los jugadores.
-	public void repartir() {
-		JugadorBJ playerAux = null;
-		boolean flagFound = false;
+	// Rutina para terminar el turno del jugador con id 'idPlayer'.
+	@Override
+	public void terminarTurnoA(int idPlayer) throws RemoteException {
+		JugadorBJ player = this.pickAPlayer(idPlayer);
+		player.terminoTurno();
+		this.repartir();
+	}
 
-		for (JugadorBJ player : this.players) {
-			if (!player.yaJugo() && !flagFound) {
-				playerAux = player;
-				flagFound = true;
-			}
-		}
-
-		if (flagFound) {
-			this.turnoDe(playerAux);
-		}
-		else {
-			this.finalDeMano();
+	// Método que se utiliza para iniciar el juego en caso de que sea el primer jugador en ingresar.
+	@Override
+	public void tryToStart() throws RemoteException {
+		if (this.players.size() == 0) {
+			this.start();
 		}
 	}
 
+	// Dar a carta a player.
+	@Override
+	public void darCarta(int idPlayer) throws RemoteException {
+		boolean flagFound = false;
+		JugadorBJ playerTurno = null;
+		
+		for (JugadorBJ player : this.players) {
+			if (!player.yaJugo() && !flagFound) {
+				playerTurno = player;
+				flagFound = true;
+			}
+		}
+		
+		if (playerTurno.getID() == idPlayer) {
+			this.crupier.darCarta(playerTurno, true);
+			this.repartir();
+		}
+
+	}
+
+	// Retorna la info de los jugadores de la mesa.
+	@Override
+	public ArrayList<IJugador> infoDeMesa() throws RemoteException {
+		ArrayList<IJugador> datosDeJugadores = new ArrayList<>(this.players.size() + 1);
+
+		for (JugadorBJ player : this.players) {
+			datosDeJugadores.add(player);
+		}
+
+		// Por último, agrego al crupier para que quede en la última posición.
+		datosDeJugadores.add(this.crupier);
+
+		return datosDeJugadores;
+	}
+
+	// Notifica a los observadores pasandole el objeto data.
+	private void notificar(Data<IJugador> data) {
+		try {
+			this.notificarObservadores(data);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	// Rutina para iniciar la mano. Este start es peligroso, debería ser privado.
+	private void start() {
+		this.ingresarListaDeEspera();
+		this.primeraMano();
+		this.apuestas();
+	}
+
 	// Rutina para buscar jugadores que todavía no apostaron.
-	public void apuestas() {
+	private void apuestas() {
 		JugadorBJ playerAux = null;
 		boolean flagFound = false;
 
@@ -87,56 +137,25 @@ public class BlackJack {
 			this.repartir();
 		}
 	}
-
-	// Rutina para terminar el turno del jugador con id 'idPlayer'.
-	public void terminarTurnoA(int idPlayer) {
-		JugadorBJ player = this.pickAPlayer(idPlayer);
-		player.terminoTurno();
-	}
-
-	// Notifica a los observadores pasandole el objeto data.
-	public void notificar(Data<IJugador> data) {
-		// this.notificarObservadores(data);
-		this.cc.update(data);
-	}
-
-	// Método que se utiliza para iniciar el juego en caso de que sea el primer jugador en ingresar.
-	public void tryToStart() {
-		if (this.players.size() == 0) {
-			this.start();
-		}
-	}
-
-	// Dar a carta a player.
-	public void darCarta(int idPlayer) {
-		JugadorBJ playerAux = this.pickAPlayer(idPlayer);
-		this.crupier.darCarta(playerAux, true);
-	}
-
-	// Retorna la info de los jugadores de la mesa.
-	public ArrayList<IJugador> infoDeMesa() {
-		ArrayList<IJugador> datosDeJugadores = new ArrayList<>(this.players.size() + 1);
+	
+	// Rutina para repartir a los jugadores.
+	private void repartir() {
+		JugadorBJ playerAux = null;
+		boolean flagFound = false;
 
 		for (JugadorBJ player : this.players) {
-			datosDeJugadores.add(player);
+			if (!player.yaJugo() && !flagFound) {
+				playerAux = player;
+				flagFound = true;
+			}
 		}
 
-		// Por último, agrego al crupier para que quede en la última posición.
-		datosDeJugadores.add(this.crupier);
-
-		return datosDeJugadores;
-	}
-
-	// Provisorio.
-	public void setCC(Controlador cc) {
-		this.cc = cc;
-	}
-
-	// Rutina para iniciar la mano. Este start es peligroso, debería ser privado.
-	private void start() {
-		this.ingresarListaDeEspera();
-		this.primeraMano();
-		this.apuestas();
+		if (flagFound) {
+			this.turnoDe(playerAux);
+		}
+		else {
+			this.finalDeMano();
+		}
 	}
 
 	// Retorna true si se llenó la mesa.
@@ -171,7 +190,7 @@ public class BlackJack {
 	}
 
 	// Setter de la queue de lista de espera.
-	public void setListaDeEspera() {
+	private void setListaDeEspera() {
 		this.listaDeEspera = new LinkedList<>();
 	}
 

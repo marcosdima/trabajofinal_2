@@ -1,7 +1,10 @@
 package ar.edu.unlu.mazo;
 
-public class Carta {
+import java.io.Serializable;
 
+public class Carta implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private Palo paloDeCarta;
 	private ContenidoDeCarta contenido;
 	private boolean visible;

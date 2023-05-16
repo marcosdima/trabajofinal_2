@@ -1,7 +1,10 @@
 package ar.edu.unlu.tools;
 
-public class NodoPila<Cosa> {
+import java.io.Serializable;
 
+public class NodoPila<Cosa> implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private Cosa elemento;
 	private NodoPila<Cosa> anterior;
 

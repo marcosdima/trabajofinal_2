@@ -1,7 +1,10 @@
 package ar.edu.unlu.tools;
 
-public class Intencion {
+import java.io.Serializable;
 
+public class Intencion implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private String[] out = {"salir", "exit", "slir", "salida", "ecsit"};
 	private String[] positive = {"si", "s", "yes", "y", "sisi", "sis", "yyes"};
 	private String[] negative = {"no", "n", "nop", "nope", "nono", "nain", "nel"};

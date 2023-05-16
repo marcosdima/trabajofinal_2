@@ -1,10 +1,11 @@
 package ar.edu.unlu.trabajofinal;
 
 public class JugadorBJ extends Jugador {
+	private static final long serialVersionUID = 1L;
 	private boolean yaAposto = false;
 	private boolean yaJugo = false;
 	private ApuestaBJ apuesta;
-
+	
 	public JugadorBJ(String nombre, int dinero) {
 		super(nombre, dinero);
 	}

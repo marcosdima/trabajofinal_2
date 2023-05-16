@@ -1,7 +1,10 @@
 package ar.edu.unlu.tools;
 
-public class Pila<Cosa> {
+import java.io.Serializable;
 
+public class Pila<Cosa> implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private int tam;
 	private int nroNodos;
 	private NodoPila<Cosa> tope;

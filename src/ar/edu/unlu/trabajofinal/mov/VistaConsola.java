@@ -1,5 +1,6 @@
-package ar.edu.unlu.mov;
+package ar.edu.unlu.trabajofinal.mov;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import ar.edu.unlu.tools.Escaner;
@@ -8,23 +9,29 @@ import ar.edu.unlu.trabajofinal.IJugador;
 
 public class VistaConsola implements IVista {
 	private Escaner escaner;
-	private Controlador controller;
+	private Controlador controlador;
 	private Print p;
 
-
-	public VistaConsola() {
+	public VistaConsola(Controlador cc) {
 		this.escaner = new Escaner();
 		this.p = new Print();
+		this.controlador = cc;
+		this.controlador.addVista(this);
 	}
 
 	@Override
 	public void menuPrincipal() {
 		p.print("Menu principal");
 		p.print("1. Jugar");
-		p.print("2. salir");
+		p.print("2. Salir");
 		int eleccion = this.escaner.nextInt();
 		if (eleccion == 1) {
-			this.controller.startGame();
+			try {
+				this.controlador.startGame();
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

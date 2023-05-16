@@ -1,10 +1,17 @@
 package ar.edu.unlu.trabajofinal;
 
-public class Persona {
+import java.io.Serializable;
 
+public class Persona  implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private String nombre;
 	private float dinero;
 
+	public Persona() {
+		
+	}
+	
 	public Persona(String nombre, float dinero) {
 		this.setNombre(nombre);
 		this.setDinero(dinero);

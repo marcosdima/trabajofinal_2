@@ -5,6 +5,7 @@ import ar.edu.unlu.mazo.ContenidoDeCarta;
 import ar.edu.unlu.mazo.MazoDeNaipes;
 
 public class Crupier extends Jugador {
+	private static final long serialVersionUID = 1L;
 	private MazoDeNaipes mazo = new MazoDeNaipes();
 	// private BlackJack mesa;
 	private EstadoDeMano estadoPropio;

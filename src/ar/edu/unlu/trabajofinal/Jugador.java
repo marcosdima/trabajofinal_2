@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import ar.edu.unlu.mazo.Carta;
 import ar.edu.unlu.mazo.ConjuntoDeCartas;
 
-public class Jugador extends Persona implements IJugador {
+public class Jugador extends Persona implements IJugador{
+	private static final long serialVersionUID = 1L;
 	private ConjuntoDeCartas mano = new ConjuntoDeCartas(7);
 	private int id = 0;
 	private int puntaje = 0;

@@ -1,8 +1,11 @@
 package ar.edu.unlu.tools;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Rand {
+public class Rand implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	public char randomChar() {
 

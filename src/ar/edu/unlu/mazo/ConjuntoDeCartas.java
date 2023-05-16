@@ -1,9 +1,11 @@
 package ar.edu.unlu.mazo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ConjuntoDeCartas {
+public class ConjuntoDeCartas implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Carta> cartas;
 	private int tam;
 

@@ -33,9 +33,9 @@ public class VistaConsola implements IVista {
 			break;
 			
 		case 2:
+			System.out.println("Hasta Luego!");
 			System.exit(0);
-			break;
-			
+			break;	
 		}
 	}
 
@@ -101,5 +101,11 @@ public class VistaConsola implements IVista {
 		p.printSeguido(conjuntoPuntajes, espacio);
 		p.printSeguido(dinerillo, espacio);
 
+	}
+
+	@Override
+	public void mostrarMensaje(Mensaje msj) {
+		p.justPrint(msj.getMensaje());
+		p.espacio();
 	}
 }

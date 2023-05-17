@@ -10,4 +10,5 @@ public interface IVista {
 	public boolean preguntaQuieroOtra();
 	public void mostrarMesa(ArrayList<IJugador> mesa);
 	public String formularioDeIngreso();
+	public void mostrarMensaje(Mensaje msj);
 }

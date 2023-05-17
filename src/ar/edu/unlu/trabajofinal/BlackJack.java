@@ -112,7 +112,7 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 	}
 
 	// Notifica a los observadores pasandole el objeto data.
-	private void notificar(Data<IJugador> data) {
+	public void notificar(Data<IJugador> data) {
 		try {
 			this.notificarObservadores(data);
 		} catch (RemoteException e) {

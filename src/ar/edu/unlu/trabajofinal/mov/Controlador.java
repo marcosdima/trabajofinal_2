@@ -27,7 +27,6 @@ public class Controlador implements IControladorRemoto {
 		
 		try {
 			this.id = this.modelo.newPlayer(name);
-			System.out.println(this.id);
 			this.modelo.tryToStart();
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -60,9 +59,7 @@ public class Controlador implements IControladorRemoto {
 
 	private void update(Data<IJugador> data) throws RemoteException {
 		this.vistaPrincipal.mostrarMesa(this.modelo.infoDeMesa());
-		System.out.println(data.evento());
-		System.out.println(data.remitente());
-		System.out.println(this.id);
+
 		if (this.id == data.remitente()) {
 			switch(data.evento()) {
 			
@@ -85,6 +82,7 @@ public class Controlador implements IControladorRemoto {
 				break;
 				
 			case FINDEJUEGO:
+				this.vistaPrincipal.mostrarMensaje(Mensaje.FINDEJUEGO);
 				this.menuPrincipal();
 				break;
 			default:
@@ -103,7 +101,7 @@ public class Controlador implements IControladorRemoto {
 		Data<IJugador> data = (Data<IJugador>) arg1;
 		this.update(data);
 	}
-
+	
 	@Override
 	public <T extends IObservableRemoto> void setModeloRemoto(T arg0) {
 		this.modelo = (IModelo) arg0;

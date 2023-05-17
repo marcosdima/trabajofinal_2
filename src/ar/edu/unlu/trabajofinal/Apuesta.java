@@ -1,6 +1,9 @@
 package ar.edu.unlu.trabajofinal;
 
-public class Apuesta {
+import java.io.Serializable;
+
+public class Apuesta implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private float monto = 0;
 	private float ganancia = 0;
 	private String apostador = "";

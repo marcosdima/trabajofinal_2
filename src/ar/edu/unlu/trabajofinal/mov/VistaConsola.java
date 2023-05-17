@@ -33,6 +33,8 @@ public class VistaConsola implements IVista {
 				e.printStackTrace();
 			}
 		}
+		
+		p.espacio();
 	}
 
 	@Override

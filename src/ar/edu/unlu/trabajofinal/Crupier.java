@@ -101,11 +101,6 @@ public class Crupier extends Jugador {
 		EstadoDeMano estadoDeJugador = this.getEstado(player);
 		int puntajeDeJugador = this.calcPuntaje(player);
 
-		System.out.println("Estado de jugador: " + estadoDeJugador);
-		System.out.println("Estado propio: " + this.estadoPropio);
-		System.out.println("Puntaje de jugador: " + puntajeDeJugador);
-		System.out.println("Puntaje propio: " + this.getPuntaje());
-
 		switch(estadoDeJugador) {
 		case BLACKJACK:
 			if (this.estadoPropio == EstadoDeMano.BLACKJACK) {

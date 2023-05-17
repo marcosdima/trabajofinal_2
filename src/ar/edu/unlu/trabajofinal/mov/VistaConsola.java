@@ -1,6 +1,5 @@
 package ar.edu.unlu.trabajofinal.mov;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import ar.edu.unlu.tools.Escaner;
@@ -21,26 +20,29 @@ public class VistaConsola implements IVista {
 
 	@Override
 	public void menuPrincipal() {
-		p.print("Menu principal");
+		p.print("--- Menu principal ---");
 		p.print("1. Jugar");
 		p.print("2. Salir");
-		int eleccion = this.escaner.nextInt();
-		if (eleccion == 1) {
-			try {
-				this.controlador.startGame();
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		
+		int eleccion = this.escaner.nextInt();
 		p.espacio();
+		
+		switch(eleccion) {
+		case 1:
+			this.controlador.startGame();
+			break;
+			
+		case 2:
+			System.exit(0);
+			break;
+			
+		}
 	}
 
 	@Override
-	public int ingresoDeApuesta() {
+	public String ingresoDeApuesta() {
 		p.print("Ingresar apuesta: ");
-		int monto = this.escaner.nextInt();
+		String monto = this.escaner.next();
 		p.espacio();
 
 		return monto;

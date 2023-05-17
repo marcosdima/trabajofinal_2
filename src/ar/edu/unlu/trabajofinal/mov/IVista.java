@@ -6,7 +6,7 @@ import ar.edu.unlu.trabajofinal.IJugador;
 
 public interface IVista {
 	public void menuPrincipal();
-	public int ingresoDeApuesta();
+	public String ingresoDeApuesta();
 	public boolean preguntaQuieroOtra();
 	public void mostrarMesa(ArrayList<IJugador> mesa);
 	public String formularioDeIngreso();

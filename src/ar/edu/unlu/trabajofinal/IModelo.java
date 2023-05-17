@@ -11,7 +11,7 @@ public interface IModelo extends IObservableRemoto {
 	int newPlayer(String name) throws RemoteException;
 
 	// Registra la apuesta del jugador con el id dado.s
-	void registrarApuesta(float monto, int idPlayer) throws RemoteException;
+	void registrarApuesta(String monto, int idPlayer) throws RemoteException;
 
 	// Rutina para terminar el turno del jugador con id 'idPlayer'.
 	void terminarTurnoA(int idPlayer) throws RemoteException;

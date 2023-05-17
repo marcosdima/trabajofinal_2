@@ -44,7 +44,6 @@ public abstract class Mazo extends ConjuntoDeCartas {
 		this.baraja = baraja;
 	}
 
-	// Queda pendiente pensar en la medida control. Si mezclamos cada vez que termina la partida no hace falta.
 	public Carta agarrarCarta() {
 
 		if (this.baraja == null) {

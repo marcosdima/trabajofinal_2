@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import ar.edu.unlu.tools.Intencion;
+
 import ar.edu.unlu.rmimvc.observer.ObservableRemoto;
 
 public class BlackJack extends ObservableRemoto implements IModelo {
@@ -30,6 +32,8 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 		if (!this.full()) {
 			newPlayer = new JugadorBJ(name, this.MONTOINICIAL);
 			this.listaDeEspera.add(newPlayer);
+			newPlayer.setID(this.cantPlayers);
+			this.cantPlayers++;
 			idAux = newPlayer.getID();
 		}
 
@@ -38,14 +42,20 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 
 	// Registra la apuesta del jugador con el id dado.s
 	@Override
-	public void registrarApuesta(float monto, int idPlayer) throws RemoteException {
-		JugadorBJ playerAux = this.pickAPlayer(idPlayer);
-		playerAux.apostar(monto);
+	public void registrarApuesta(String monto, int idPlayer) throws RemoteException {
+		try {
+            float floatMonto = Float.parseFloat(monto);
+            JugadorBJ playerAux = this.pickAPlayer(idPlayer);
+    		playerAux.apostar(floatMonto);
+    		
+    		// Si el monto ingresado es 0, entonces saltea su turno.
+    		if (floatMonto == 0) {
+    			playerAux.terminoTurno();
+    		}
 
-		// Si el monto ingresado es 0, entonces saltea su turno.
-		if (monto == 0) {
-			playerAux.terminoTurno();
-		}
+        } catch (NumberFormatException e) {
+        	this.command(monto, idPlayer);
+        }
 
 		this.apuestas();
 	}
@@ -114,23 +124,16 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 	// Rutina para iniciar la mano. Este start es peligroso, debería ser privado.
 	private void start() {
 		this.ingresarListaDeEspera();
+		this.crupier.reset();
 		this.primeraMano();
 		this.apuestas();
 	}
 
 	// Rutina para buscar jugadores que todavía no apostaron.
 	private void apuestas() {
-		JugadorBJ playerAux = null;
-		boolean flagFound = false;
+		JugadorBJ playerAux = this.pickAGambler();
 
-		for (JugadorBJ player : this.players) {
-			if (!player.yaAposto() && !flagFound) {
-				playerAux = player;
-				flagFound = true;
-			}
-		}
-
-		if (flagFound) {
+		if (playerAux != null) {
 			this.notificar(new Data<IJugador>(Evento.SOLICITARAPUESTAS, playerAux, playerAux.getID()));
 		}
 		else {
@@ -178,9 +181,7 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 
 		for(int i = 0; i < this.listaDeEspera.size(); i++) {
 			playerAux = this.listaDeEspera.poll();
-			playerAux.setID(this.cantPlayers);
 			this.players.add(playerAux);
-			this.cantPlayers++;
 		}
 	}
 
@@ -234,6 +235,7 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 
 	// Determina las ganancias y reinicia la mano.
 	private void finalDeMano() {
+
 		this.crupier.repartirASiMismo();
 
 		for (JugadorBJ player : this.players) {
@@ -244,7 +246,14 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 		}
 
 		this.crupier.reset();
-		this.start();
+		
+		if ((this.players.size() > 0) || (this.listaDeEspera.size() > 0)) {
+			this.start();
+		}
+		else {
+			this.setListaDeEspera();
+			this.setPlayers();
+		}
 	}
 
 	// Retorna el jugador con la id 'idPlayer'.
@@ -259,4 +268,51 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 
 		return playerAux;
 	}
+
+	// Retorna el jugador que tiene que apostar.
+	private JugadorBJ pickAGambler() {
+		JugadorBJ playerAux = null;
+		boolean flagFound = false;
+
+		for (JugadorBJ player : this.players) {
+			if (!player.yaAposto() && !flagFound) {
+				playerAux = player;
+				flagFound = true;
+			}
+		}
+		
+		return playerAux;
+	}
+	
+	// Elimina al jugador. 
+	private void eliminarPlayer(int idPlayer) {
+		int contador = 0;
+		int index = 0;
+
+		for (JugadorBJ player : this.players) {
+			if (player.getID() == idPlayer) {
+				index = contador;
+			}
+			contador++;
+		}
+
+		this.players.remove(index);
+		this.notificar(new Data<IJugador>(Evento.FINDEJUEGO, null, idPlayer));
+	}
+	
+	// Ejecuta el comando ingresado.
+	private void command(String input, int playerId) {
+		JugadorBJ playerAux = this.pickAPlayer(playerId);
+		Intencion mean = new Intencion();
+		
+		if (mean.out(input)) {
+			playerAux.terminoTurno();
+			this.eliminarPlayer(playerId);
+		}
+		else if (mean.esoyam(input)) {
+			playerAux.giveDinero(1000);
+		}
+
+		this.apuestas();
+	}	
 }

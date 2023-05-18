@@ -61,32 +61,55 @@ public class Controlador implements IControladorRemoto {
 		this.vistaPrincipal.mostrarMesa(this.modelo.infoDeMesa());
 
 		if (this.id == data.remitente()) {
-			switch(data.evento()) {
+			String txt = data.evento().getMensaje();
 			
-			case SOLICITARAPUESTAS:
+			switch(data.evento()) {
+				case SOLICITARAPUESTAS:
+					
+					String monto = this.vistaPrincipal.ingresoDeApuesta(txt);
+					this.modelo.registrarApuesta(monto, data.remitente());
+					break;
+					
+				case APUESTANOVALIDA:
+					this.vistaPrincipal.mostrarMensaje(txt);
+					break;
+					
+				case APUESTAMINIMA:
+					this.vistaPrincipal.mostrarMensaje(txt);
+					break;
+					
+				case APUESTASINFONDOS:
+					this.vistaPrincipal.mostrarMensaje(txt);
+					break;
+	
+				case PREGUNTARPORCARTA:
+					boolean flag = this.vistaPrincipal.preguntaQuieroOtra(txt);
+	
+					if (flag) {
+						this.quieroOtraCarta();
+					}
+					else {
+						this.noQuieroMas();
+					}
+	
+					break;
+					
+				case FINDEMANO:
+					this.vistaPrincipal.mostrarMensaje(txt);
+					break;
+					
 				
-				String monto = this.vistaPrincipal.ingresoDeApuesta();
-				this.modelo.registrarApuesta(monto, data.remitente());
-				break;
-
-			case PREGUNTARPORCARTA:
-				boolean flag = this.vistaPrincipal.preguntaQuieroOtra();
-
-				if (flag) {
-					this.quieroOtraCarta();
-				}
-				else {
-					this.noQuieroMas();
-				}
-
-				break;
-				
-			case FINDEJUEGO:
-				this.vistaPrincipal.mostrarMensaje(Mensaje.FINDEJUEGO);
-				this.menuPrincipal();
-				break;
-			default:
-				break;
+					
+				case FINDEJUEGO:
+					this.vistaPrincipal.mostrarMensaje(txt);
+					this.menuPrincipal();
+					break;
+					
+				case ESOYAM:
+					this.vistaPrincipal.mostrarMensaje(txt);
+					
+				default:
+					break;
 			}
 		}
 	}

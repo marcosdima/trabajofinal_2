@@ -40,8 +40,8 @@ public class VistaConsola implements IVista {
 	}
 
 	@Override
-	public String ingresoDeApuesta() {
-		p.print("Ingresar apuesta: ");
+	public String ingresoDeApuesta(String texto) {
+		p.print(texto);
 		String monto = this.escaner.next();
 		p.espacio();
 
@@ -49,8 +49,8 @@ public class VistaConsola implements IVista {
 	}
 
 	@Override
-	public boolean preguntaQuieroOtra() {
-		p.print("¿Quieres una carta?");
+	public boolean preguntaQuieroOtra(String texto) {
+		p.print(texto);
 		boolean quiere = this.escaner.siONo();
 		p.espacio();
 
@@ -65,7 +65,7 @@ public class VistaConsola implements IVista {
 
 	@Override
 	public String formularioDeIngreso() {
-		p.print("Ingresa un nombre: ");
+		p.print("ingrese su nombre:");
 		String name = this.escaner.next();
 		p.espacio();
 
@@ -104,8 +104,8 @@ public class VistaConsola implements IVista {
 	}
 
 	@Override
-	public void mostrarMensaje(Mensaje msj) {
-		p.justPrint(msj.getMensaje());
+	public void mostrarMensaje(String msj) {
+		p.justPrint(msj);
 		p.espacio();
 	}
 }

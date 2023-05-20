@@ -1,0 +1,4 @@
+Carlete,1000.0
+jo,1000.0
+Comediante,899.5
+Carl,0.0

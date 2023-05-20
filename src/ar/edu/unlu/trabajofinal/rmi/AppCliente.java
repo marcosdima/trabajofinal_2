@@ -11,6 +11,7 @@ import ar.edu.unlu.rmimvc.RMIMVCException;
 import ar.edu.unlu.rmimvc.Util;
 import ar.edu.unlu.rmimvc.cliente.Cliente;
 
+
 public class AppCliente {
 
 	public static void main(String[] args) {
@@ -55,10 +56,8 @@ public class AppCliente {
 			c.iniciar(controlador);
 			vista.menuPrincipal();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (RMIMVCException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

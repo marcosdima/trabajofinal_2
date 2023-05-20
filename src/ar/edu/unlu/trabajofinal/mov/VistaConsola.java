@@ -20,23 +20,35 @@ public class VistaConsola implements IVista {
 
 	@Override
 	public void menuPrincipal() {
-		p.print("--- Menu principal ---");
+		p.printConEspacio("--- Menu principal ---");
 		p.print("1. Jugar");
-		p.print("2. Salir");
+		p.print("2. Ranking");
+		p.print("3. Cargar");
+		p.printConEspacio("4. Salir");
 		
 		int eleccion = this.escaner.nextInt();
 		p.espacio();
 		
 		switch(eleccion) {
-		case 1:
-			this.controlador.startGame();
-			break;
+			case 1:
+				this.controlador.startGame();
+				break;
+				
+			case 2:
+				p.print("Algun día va a funcar...");
+				this.menuPrincipal();
+				break;
+		
+			case 3:
+				p.print("Algun día va a funcar...");
+				this.menuPrincipal();
+				break;
 			
-		case 2:
-			System.out.println("Hasta Luego!");
-			System.exit(0);
-			break;	
-		}
+			case 4:
+				p.print("Hasta luego!");
+				System.exit(0);
+				break;	
+		}			
 	}
 
 	@Override

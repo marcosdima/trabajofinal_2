@@ -19,11 +19,31 @@ public class MenuPrincipal extends JPanel {
 	private BotonCarta load;
 	private BotonCarta salir ;
 	
-	public MenuPrincipal(String[] cartas) {
+	public MenuPrincipal(ImageManager imageManager) {
 		this.setLayout(new BorderLayout(100,100));
-		this.setButtons(cartas);
+		this.setButtons(imageManager);
 		this.setVacio();
 		this.setMenu();
+	}
+
+	public BotonCarta getJugar() {
+		return jugar;
+	}
+
+	public BotonCarta getConfig() {
+		return config;
+	}
+
+	public BotonCarta getRank() {
+		return rank;
+	}
+
+	public BotonCarta getLoad() {
+		return load;
+	}
+
+	public BotonCarta getSalir() {
+		return salir;
 	}
 
 	private void setVacio() {
@@ -66,12 +86,12 @@ public class MenuPrincipal extends JPanel {
 		this.add(this.menu, BorderLayout.CENTER);
 	}
 
-	private void setButtons(String[] cartas) {
-		this.jugar = new BotonCarta("Jugar", cartas[0]);
-		config = new BotonCarta("Configuración", cartas[1]);
-		this.rank = new BotonCarta("Ranking", cartas[2]);
-		this.load = new BotonCarta("Load", cartas[3]);
-		this.salir = new BotonCarta("Salir", cartas[4]);
+	private void setButtons(ImageManager imageManager) {
+		this.jugar = new BotonCarta("Jugar", imageManager);
+		config = new BotonCarta("Configuración", imageManager);
+		this.rank = new BotonCarta("Ranking", imageManager);
+		this.load = new BotonCarta("Load", imageManager);
+		this.salir = new BotonCarta("Salir", imageManager);
 	}
 	
 }

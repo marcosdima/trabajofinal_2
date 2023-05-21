@@ -57,4 +57,22 @@ public class Jugador extends Persona implements IJugador{
 	public String[] getArrayCartas() {
 		return this.mano.getArrayCartas();
 	}
+	
+	public String[] getIdCartas() {
+		int size = this.mano.size();
+		int contador = 0;
+		String[] cartas = new String[size];
+		
+		for (Carta cartita : this.getCartas()) {
+			if (cartita.esVisible()) {
+				cartas[contador] = cartita.getIdentificador();
+			}
+			else {
+				cartas[contador] = "CUBIERTA";
+			}
+			contador++;
+		}
+		
+		return cartas;
+	}
 }

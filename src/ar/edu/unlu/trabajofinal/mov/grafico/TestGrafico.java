@@ -21,15 +21,14 @@ import javax.swing.JLabel;
 public class TestGrafico {
 
 	public static void main(String[] args) {
-		Frame f = new Frame("Ventana");
+		Frame f = new Frame("Ventana ♦    ♥    ♣    ♠");
 		Panel p = new Panel();
 		
     	p.setLayout(new GridLayout(3,3));
     	
     	String base = "files/images/cartas/default/";
-    	String[] cartas = {base+"AS_CORAZON.png", base+"AS_CORAZON.png", base+"AS_CORAZON.png", base+"AS_CORAZON.png", base+"AS_PICA.png"};
         
-		MenuPrincipal menu = new MenuPrincipal(cartas);
+		MenuPrincipal menu = new MenuPrincipal(new ImageManager("files/images/cartas", "simple"));
     	
 		f.add(menu);
 		

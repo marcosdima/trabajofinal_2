@@ -7,7 +7,6 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -15,14 +14,16 @@ public class BotonCarta extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private boolean onClick = false;
 	private JLabel textLabel;
-	private String rutaCarta;
 	private String content;
+	private ImageManager imageManager;
+	private Image carta;
 	
-	public BotonCarta(String text, String rutaCarta) {
+	public BotonCarta(String text, ImageManager imageManager) {
 		Fuente fuente = new Fuente("files/fonts/Pokemon Classic.ttf", 13);
 		
-		this.rutaCarta = rutaCarta;
 		this.content = text;
+		this.imageManager = imageManager;
+		this.carta = imageManager.randCard(this.getWidth(), this.getHeight()).getImage(); 
 		
 		this.setLayout(new BorderLayout());
 		
@@ -30,7 +31,7 @@ public class BotonCarta extends JPanel {
 		this.textLabel = new JLabel(this.content);
         this.textLabel.setHorizontalAlignment(JLabel.CENTER);
         this.textLabel.setFont(fuente.font());
-        textLabel.setForeground(Color.WHITE);
+        textLabel.setForeground(Color.BLACK);
         this.textLabel.setText("");
         
         
@@ -41,16 +42,19 @@ public class BotonCarta extends JPanel {
 	
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		Image image = new ImageIcon(this.rutaCarta).getImage();
+		Image image;
         
 		if (this.onClick) {
-	        g.fillRect( 0, 0, this.getWidth(), this.getHeight());
+			image = imageManager.imagen("CUBIERTA", this.getWidth(), this.getHeight()).getImage();
+	        //g.fillRect( 0, 0, this.getWidth(), this.getHeight());
 	        textLabel.setText(content);
 		}
 		else {
-			g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);	
+			image = carta;
 			textLabel.setText("");
 		}
+		
+		g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);	
 	}
 	
 	// Setea los listeners del mouse para que se vea como un botón.

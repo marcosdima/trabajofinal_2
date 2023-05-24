@@ -1,5 +1,7 @@
 package ar.edu.unlu.trabajofinal.mov.grafico;
 
+import ar.edu.unlu.tools.Rand;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -17,7 +19,8 @@ public class MenuPrincipal extends JPanel {
 	private BotonCarta config;
 	private BotonCarta rank;
 	private BotonCarta load;
-	private BotonCarta salir ;
+	private BotonCarta salir;
+	private BotonCarta[] botones;
 	
 	public MenuPrincipal(ImageManager imageManager) {
 		this.setLayout(new BorderLayout(100,100));
@@ -73,11 +76,9 @@ public class MenuPrincipal extends JPanel {
 		
 		// Preparo los botones.
 		panelBotones.setLayout(new GridLayout(1, 5, 10, 10));
-		panelBotones.add(this.jugar);
-		panelBotones.add(this.config);
-		panelBotones.add(this.rank);
-		panelBotones.add(this.load);
-		panelBotones.add(this.salir);
+		for (BotonCarta bt : this.botones) {
+			panelBotones.add(bt);
+		}
 		
 		this.menu.setLayout(new GridLayout(2,1));
 		this.menu.add(title);
@@ -88,10 +89,19 @@ public class MenuPrincipal extends JPanel {
 
 	private void setButtons(ImageManager imageManager) {
 		this.jugar = new BotonCarta("Jugar", imageManager);
-		config = new BotonCarta("Configuración", imageManager);
+		this.config = new BotonCarta("Config", imageManager);
 		this.rank = new BotonCarta("Ranking", imageManager);
 		this.load = new BotonCarta("Load", imageManager);
 		this.salir = new BotonCarta("Salir", imageManager);
+		
+		Rand random = new Rand();
+		this.botones = new BotonCarta[5];
+		int[] lista = random.randomList(this.botones.length);
+		
+		this.botones[lista[0] - 1] = this.jugar;
+		this.botones[lista[1] - 1] = this.config;
+		this.botones[lista[2] - 1] = this.rank;
+		this.botones[lista[3] - 1] = this.load;
+		this.botones[lista[4] - 1] = this.salir;
 	}
-	
 }

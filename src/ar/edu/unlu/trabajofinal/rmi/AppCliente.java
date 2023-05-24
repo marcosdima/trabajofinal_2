@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import ar.edu.unlu.trabajofinal.mov.VistaGrafica;
 import ar.edu.unlu.trabajofinal.mov.VistaConsola;
 import ar.edu.unlu.trabajofinal.mov.Controlador;
 import ar.edu.unlu.rmimvc.RMIMVCException;
@@ -15,6 +16,8 @@ import ar.edu.unlu.rmimvc.cliente.Cliente;
 public class AppCliente {
 
 	public static void main(String[] args) {
+
+		
 		ArrayList<String> ips = Util.getIpDisponibles();
 		String ip = (String) JOptionPane.showInputDialog(
 				null, 
@@ -50,7 +53,8 @@ public class AppCliente {
 		);
 		Controlador controlador = new Controlador();
 		Cliente c = new Cliente(ip, Integer.parseInt(port), ipServidor, Integer.parseInt(portServidor));
-		VistaConsola vista = new VistaConsola(controlador);
+		//VistaConsola vista = new VistaConsola(controlador);
+		VistaGrafica vista = new VistaGrafica(controlador);
 		
 		try {
 			c.iniciar(controlador);

@@ -52,21 +52,21 @@ public class VistaConsola implements IVista {
 	}
 
 	@Override
-	public String ingresoDeApuesta(String texto) {
+	public void ingresoDeApuesta(String texto) {
 		p.print(texto);
 		String monto = this.escaner.next();
 		p.espacio();
 
-		return monto;
+		this.controlador.apostar(monto);
 	}
 
 	@Override
-	public boolean preguntaQuieroOtra(String texto) {
+	public void preguntaQuieroOtra(String texto) {
 		p.print(texto);
 		boolean quiere = this.escaner.siONo();
 		p.espacio();
 
-		return quiere;
+		this.controlador.otraCarta(quiere);
 	}
 
 	@Override

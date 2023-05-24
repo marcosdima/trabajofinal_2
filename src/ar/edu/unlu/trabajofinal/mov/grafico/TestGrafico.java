@@ -1,38 +1,30 @@
 package ar.edu.unlu.trabajofinal.mov.grafico;
 
-import java.io.File;
-
-import javax.swing.JButton;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GridLayout;
-
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import ar.edu.unlu.trabajofinal.*;
+import ar.edu.unlu.mazo.*;
 
 public class TestGrafico {
 
 	public static void main(String[] args) {
-		Frame f = new Frame("Ventana ♦    ♥    ♣    ♠");
-		Panel p = new Panel();
+	
+		JugadorBJ test = new JugadorBJ("Carlos", 111);
 		
-    	p.setLayout(new GridLayout(3,3));
-    	
-    	String base = "files/images/cartas/default/";
-        
-		MenuPrincipal menu = new MenuPrincipal(new ImageManager("files/images/cartas", "simple"));
-    	
-		f.add(menu);
+		Carta c1 = new Carta(Palo.CORAZON, ContenidoDeCarta.AS);
+		Carta c2 = new Carta(Palo.CORAZON, ContenidoDeCarta.DOS);
 		
+		c1.setVisibilidad(true);
+		c2.setVisibilidad(true);
+		
+		test.addCarta(c2);
+		test.addCarta(c1);
+		
+		Frame f = new Frame("");
+		ImageManager manager = new ImageManager("files/images/cartas", "default");
+		
+		ModuloJugador mj = new ModuloJugador(test, manager);
+		f.add(mj);
 		f.turnOn();
+		
 		
 		/*
 		

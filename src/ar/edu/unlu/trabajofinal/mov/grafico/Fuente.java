@@ -10,6 +10,14 @@ public class Fuente {
 	Font fuente;
 
 	public Fuente(String ruta, int size) {
+		this.setFuente(ruta, size);
+	}
+	
+	public Fuente(int size) {
+		this("files/fonts/Pokemon Classic.ttf", size);
+	}
+	
+	public void setFuente(String ruta, int size) {
 		try {
 			this.fuente = Font.createFont(Font.TRUETYPE_FONT, new File(ruta));
 			this.fuente  = this.fuente.deriveFont(Font.PLAIN, size);

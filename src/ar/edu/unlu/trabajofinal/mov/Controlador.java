@@ -40,8 +40,17 @@ public class Controlador implements IControladorRemoto {
 			e.printStackTrace();
 		}
 	}
+	
+	public void otraCarta(boolean decision) {
+		if (decision) {
+			this.quieroOtraCarta();
+		}
+		else {
+			this.noQuieroMas();
+		}
+	}
 
-	public void quieroOtraCarta() {
+	private void quieroOtraCarta() {
 		try {
 			this.modelo.darCarta(this.id);
 		} catch (RemoteException e) {
@@ -49,7 +58,7 @@ public class Controlador implements IControladorRemoto {
 		}
 	}
 
-	public void noQuieroMas() {
+	private void noQuieroMas() {
 		try {
 			this.modelo.terminarTurnoA(this.id);
 		} catch (RemoteException e) {
@@ -66,8 +75,7 @@ public class Controlador implements IControladorRemoto {
 			switch(data.evento()) {
 				case SOLICITARAPUESTAS:
 					
-					String monto = this.vistaPrincipal.ingresoDeApuesta(txt);
-					this.modelo.registrarApuesta(monto, data.remitente());
+					this.vistaPrincipal.ingresoDeApuesta(txt);
 					break;
 					
 				case APUESTANOVALIDA:
@@ -83,15 +91,7 @@ public class Controlador implements IControladorRemoto {
 					break;
 	
 				case PREGUNTARPORCARTA:
-					boolean flag = this.vistaPrincipal.preguntaQuieroOtra(txt);
-	
-					if (flag) {
-						this.quieroOtraCarta();
-					}
-					else {
-						this.noQuieroMas();
-					}
-	
+					this.vistaPrincipal.preguntaQuieroOtra(txt);	
 					break;
 					
 				case FINDEMANO:

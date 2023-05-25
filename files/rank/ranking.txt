@@ -1,10 +1,10 @@
 Salir,1250.0
-jo,1000.0
 Carlete,1000.0
+jo,1000.0
 Comediante,899.5
 Carlos,650.0
 Jorge,350.0
 Carlos,150.0
 Marcos,100.0
 Marcos,50.0
-NH,0.0
+Carlos,0.0

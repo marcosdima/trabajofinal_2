@@ -86,6 +86,5 @@ public class ModuloJugador extends JPanel {
 	public void setManager(ImageManager manager) {
 		this.manager = manager;
 	}
-	
 }
 

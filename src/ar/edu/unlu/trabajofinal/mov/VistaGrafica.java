@@ -21,7 +21,7 @@ public class VistaGrafica implements IVista {
 	public VistaGrafica(Controlador cc) {
 		this.setController(cc);
 		this.setFramePrincipal();
-		this.setImageManager("files/images/cartas", "simple_shiny");
+		this.setImageManager("files/images/cartas", "default");
 		this.framePrincipal.turnOn();
 	}
 	
@@ -52,7 +52,7 @@ public class VistaGrafica implements IVista {
 	public void ingresoDeApuesta(String texto) {
 		SwingUtilities.invokeLater(() -> {
 			String stringAux = "";
-            stringAux = JOptionPane.showInputDialog(this.framePrincipal, texto, "Apuesta", JOptionPane.INFORMATION_MESSAGE);	
+            stringAux = JOptionPane.showInputDialog(null, texto, "Apuesta", JOptionPane.INFORMATION_MESSAGE);	
             this.controller.apostar(stringAux);
         });
 	}
@@ -63,7 +63,7 @@ public class VistaGrafica implements IVista {
 			boolean retorno = false;
 			
 			// 0 = Si; 1 = No
-			int respuesta = JOptionPane.showConfirmDialog(this.framePrincipal, texto, "Pregunta", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+			int respuesta = JOptionPane.showConfirmDialog(null, texto, "Pregunta", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 
 			if (respuesta == 0) {
 				retorno = true;

@@ -20,6 +20,7 @@ public class AppServidor {
 				JOptionPane.QUESTION_MESSAGE, 
 				null,
 				ips.toArray(),
+				
 				"127.0.0.1"
 		);
 		String port = (String) JOptionPane.showInputDialog(

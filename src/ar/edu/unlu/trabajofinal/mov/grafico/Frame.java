@@ -11,7 +11,7 @@ public class Frame extends JFrame {
 	
 	public Frame(String title) {
 		super(title);
-		this.setSize(1024, 768);
+		this.setSize(1240, 900);
 		this.setBackground(new Color(10,10,10));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}

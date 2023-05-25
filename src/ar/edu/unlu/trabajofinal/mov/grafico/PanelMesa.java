@@ -1,10 +1,13 @@
 package ar.edu.unlu.trabajofinal.mov.grafico;
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import ar.edu.unlu.trabajofinal.IJugador;
 
@@ -15,6 +18,7 @@ public class PanelMesa extends JPanel {
 	private JPanel panelJugadores;
 	private JPanel panelCrupier;
 	private ImageManager imageManager;
+	private Displayer display;
 	
 	public PanelMesa(ArrayList<IJugador> players, ImageManager imageManager) {
 		this.imageManager = imageManager;
@@ -28,6 +32,8 @@ public class PanelMesa extends JPanel {
 	public void setPlayers(ArrayList<IJugador> players) {
 		ModuloJugador moduloAuxiliar = null;
 		
+		this.display = new Displayer();
+		
 		this.panelCrupier.removeAll();
 		this.panelJugadores.removeAll();
 		
@@ -36,7 +42,15 @@ public class PanelMesa extends JPanel {
 			this.panelJugadores.add(moduloAuxiliar);
 		}
 		
-		this.panelCrupier.add(new ModuloJugador(players.get((players.size() - 1)), this.imageManager));
+		// Esto es para que el crupier tenga un margen.
+		JPanel panelParaElCrupier = new JPanel();
+		GridLayout gridCrupier = new GridLayout(1,1);
+		panelParaElCrupier.setLayout(gridCrupier);
+		panelParaElCrupier.add(new ModuloJugador(players.get((players.size() - 1)), this.imageManager));
+		panelParaElCrupier.setBorder(new EmptyBorder(0,100,10,100));
+		
+		this.panelCrupier.add(panelParaElCrupier);	
+		this.panelCrupier.add(this.display);
 	}
 
 	private void setPanelPrincipal() {
@@ -55,7 +69,9 @@ public class PanelMesa extends JPanel {
 	}
 
 	private void setPanelCrupier() {
+		GridLayout lay = new GridLayout(1, 2, 10, 10);
 		this.panelCrupier = new JPanel();
-		this.panelCrupier.setLayout(new FlowLayout());	
+		this.panelCrupier.setBorder(new EmptyBorder(0,100,10,100));
+		this.panelCrupier.setLayout(lay);	
 	}
 }

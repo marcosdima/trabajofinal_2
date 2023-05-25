@@ -2,27 +2,26 @@ package ar.edu.unlu.trabajofinal.mov.grafico;
 
 import ar.edu.unlu.trabajofinal.*;
 import ar.edu.unlu.mazo.*;
+import java.util.ArrayList;
 
 public class TestGrafico {
 
 	public static void main(String[] args) {
 	
-		JugadorBJ test = new JugadorBJ("Carlos", 111);
+		Frame f = new Frame("a");
+		JugadorBJ ply = new JugadorBJ("Carlos", 11);
+		Crupier crup = new Crupier();
+		ArrayList<IJugador> jugadores = new ArrayList<IJugador>();
+		ImageManager img = new ImageManager("files/images/cartas", "default");
 		
-		Carta c1 = new Carta(Palo.CORAZON, ContenidoDeCarta.AS);
-		Carta c2 = new Carta(Palo.CORAZON, ContenidoDeCarta.DOS);
+		crup.darCarta(ply);
+		crup.repartirASiMismo();
+		jugadores.add(ply);
+		jugadores.add(crup);
 		
-		c1.setVisibilidad(true);
-		c2.setVisibilidad(true);
+		PanelMesa panel = new PanelMesa(jugadores, img);
 		
-		test.addCarta(c2);
-		test.addCarta(c1);
-		
-		Frame f = new Frame("");
-		ImageManager manager = new ImageManager("files/images/cartas", "default");
-		
-		ModuloJugador mj = new ModuloJugador(test, manager);
-		f.add(mj);
+		f.add(panel);
 		f.turnOn();
 		
 		

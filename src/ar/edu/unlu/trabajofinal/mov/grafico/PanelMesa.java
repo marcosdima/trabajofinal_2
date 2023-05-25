@@ -1,11 +1,9 @@
 package ar.edu.unlu.trabajofinal.mov.grafico;
 
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -20,8 +18,9 @@ public class PanelMesa extends JPanel {
 	private ImageManager imageManager;
 	private Displayer display;
 	
-	public PanelMesa(ArrayList<IJugador> players, ImageManager imageManager) {
+	public PanelMesa(ArrayList<IJugador> players, ImageManager imageManager, Displayer display) {
 		this.imageManager = imageManager;
+		this.display = display;
 
 		this.setPanelJugadores();
 		this.setPanelCrupier();
@@ -31,8 +30,6 @@ public class PanelMesa extends JPanel {
 	
 	public void setPlayers(ArrayList<IJugador> players) {
 		ModuloJugador moduloAuxiliar = null;
-		
-		this.display = new Displayer();
 		
 		this.panelCrupier.removeAll();
 		this.panelJugadores.removeAll();
@@ -74,4 +71,5 @@ public class PanelMesa extends JPanel {
 		this.panelCrupier.setBorder(new EmptyBorder(0,100,10,100));
 		this.panelCrupier.setLayout(lay);	
 	}
+
 }

@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import ar.edu.unlu.trabajofinal.IJugador;
+import ar.edu.unlu.trabajofinal.mov.grafico.Displayer;
 import ar.edu.unlu.trabajofinal.mov.grafico.Frame;
 import ar.edu.unlu.trabajofinal.mov.grafico.ImageManager;
 import ar.edu.unlu.trabajofinal.mov.grafico.MenuPrincipal;
@@ -17,11 +18,14 @@ public class VistaGrafica implements IVista {
 	private Controlador controller;
 	private Frame framePrincipal;
 	private ImageManager imageManager;
+	private PanelMesa panelMesa;
+	private Displayer display;
 
 	public VistaGrafica(Controlador cc) {
 		this.setController(cc);
 		this.setFramePrincipal();
 		this.setImageManager("files/images/cartas", "default");
+		this.setDisplay();
 		this.framePrincipal.turnOn();
 	}
 	
@@ -75,7 +79,7 @@ public class VistaGrafica implements IVista {
 
 	@Override
 	public void mostrarMesa(ArrayList<IJugador> mesa) {
-		PanelMesa panelMesa = new PanelMesa(mesa, this.imageManager);
+		PanelMesa panelMesa = new PanelMesa(mesa, this.imageManager, this.display);
 		this.framePrincipal.add(panelMesa);
 		panelMesa.updateUI();
 	}
@@ -93,7 +97,7 @@ public class VistaGrafica implements IVista {
 
 	@Override
 	public void mostrarMensaje(String msj) {
-		System.out.println(msj);
+		this.display.write(msj);
 	}
 	
 	public void setController(Controlador controller) {
@@ -107,5 +111,9 @@ public class VistaGrafica implements IVista {
 	
 	public void setImageManager(String directorio, String carpeta) {
 		this.imageManager = new ImageManager(directorio, carpeta);
+	}
+	
+	public void setDisplay() {
+		this.display = new Displayer();
 	}
 }

@@ -1,7 +1,7 @@
 package ar.edu.unlu.trabajofinal.mov.grafico;
 
 import ar.edu.unlu.trabajofinal.*;
-import ar.edu.unlu.mazo.*;
+//import ar.edu.unlu.mazo.*;
 import java.util.ArrayList;
 
 public class TestGrafico {
@@ -19,7 +19,7 @@ public class TestGrafico {
 		jugadores.add(ply);
 		jugadores.add(crup);
 		
-		PanelMesa panel = new PanelMesa(jugadores, img);
+		PanelMesa panel = new PanelMesa(jugadores, img, new Displayer());
 		
 		f.add(panel);
 		f.turnOn();

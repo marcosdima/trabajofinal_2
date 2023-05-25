@@ -5,6 +5,7 @@ import javax.swing.JTextArea;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.JScrollPane;
 
 import java.awt.Color;
@@ -37,8 +38,13 @@ public class Displayer extends JPanel {
 		escritura.add(this.send);
 		
 		this.add(this.chat);
-		this.add(escritura);
 		//this.setBorder(new EmptyBorder(10,350,10,350));
+		
+		JScrollPane scroll = new JScrollPane(this.chat);
+        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        this.add(scroll);
+        
+		this.add(escritura);
 	}
 
 	public void write(String txt) {
@@ -51,21 +57,16 @@ public class Displayer extends JPanel {
 			espacio += "-";
 		}
 		
-		String contenido = espacio + "\n" + txt + "\n" + espacio + "\n";
+		String contenido = espacio + "\n" + " " + txt + "\n" + espacio + "\n";
 		this.chat.setText(history + contenido);
 	}
 	
 	public void setChat() {
 		this.chat = new JTextArea();
 		this.chat.setLineWrap(true);
-		this.chat.setEditable(false);
+		//this.chat.setEditable(false);
 		this.chat.setFont(new Fuente(12).font());
         this.chat.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        
-        JScrollPane scrollPane = new JScrollPane(this.chat);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        
 	}
 
 	public void send(ActionListener action) {

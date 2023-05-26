@@ -73,4 +73,7 @@ public class Displayer extends JPanel {
 		this.send.addActionListener(action);
 	}
 	
+	public String getInputText() {
+		return this.input.getText();
+	}
 }

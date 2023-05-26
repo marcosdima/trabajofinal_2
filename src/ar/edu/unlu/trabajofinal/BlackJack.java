@@ -67,11 +67,11 @@ public class BlackJack extends ObservableRemoto implements IModelo {
     		else {
     			playerAux.apostar(floatMonto);
     		}
+    		
+    		this.apuestas();
         } catch (NumberFormatException e) {
         	this.command(monto, idPlayer);
         }
-
-		this.apuestas();
 	}
 
 	// Rutina para terminar el turno del jugador con id 'idPlayer'.
@@ -125,9 +125,19 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 		return datosDeJugadores;
 	}
 
-	// Notifica a los observadores pasandole el objeto data.
+	// Notifica a los observadores pasandole el objeto data (IJugador).
 	public void notificar(Data<IJugador> data) throws RemoteException {
 			this.notificarObservadores(data);
+	}
+		
+	// Envía un msj a todos los jugadores.
+	public void mensaje(String contenido, int playerId) throws RemoteException {
+		String mensajeFormateado = "";
+		
+		JugadorBJ sender = this.pickAPlayer(playerId);
+		mensajeFormateado = sender.getNombre() + ": " + contenido;
+
+		this.notificarObservadores(mensajeFormateado);
 	}
 	
 	// Rutina para iniciar la mano. Este start es peligroso, debería ser privado.

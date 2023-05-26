@@ -21,9 +21,10 @@ public class TestGrafico {
 		
 		PanelMesa panel = new PanelMesa(jugadores, img, new Displayer());
 		
-		f.add(panel);
+		//f.add(panel);
 		f.turnOn();
 		
+		//Dialogo d = new Dialogo("test", "ahora es personal");
 		
 		/*
 		

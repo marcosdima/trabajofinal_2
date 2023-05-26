@@ -1,5 +1,7 @@
 package ar.edu.unlu.trabajofinal.mov;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -8,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import ar.edu.unlu.trabajofinal.IJugador;
+import ar.edu.unlu.trabajofinal.mov.grafico.DialogoBJ;
 import ar.edu.unlu.trabajofinal.mov.grafico.Displayer;
 import ar.edu.unlu.trabajofinal.mov.grafico.Frame;
 import ar.edu.unlu.trabajofinal.mov.grafico.ImageManager;
@@ -18,14 +21,15 @@ public class VistaGrafica implements IVista {
 	private Controlador controller;
 	private Frame framePrincipal;
 	private ImageManager imageManager;
-	private PanelMesa panelMesa;
 	private Displayer display;
+	private DialogoBJ dialogo;
 
 	public VistaGrafica(Controlador cc) {
 		this.setController(cc);
 		this.setFramePrincipal();
 		this.setImageManager("files/images/cartas", "default");
 		this.setDisplay();
+		this.setDialogo();
 		this.framePrincipal.turnOn();
 	}
 	
@@ -54,11 +58,7 @@ public class VistaGrafica implements IVista {
 
 	@Override
 	public void ingresoDeApuesta(String texto) {
-		SwingUtilities.invokeLater(() -> {
-			String stringAux = "";
-            stringAux = JOptionPane.showInputDialog(null, texto, "Apuesta", JOptionPane.INFORMATION_MESSAGE);	
-            this.controller.apostar(stringAux);
-        });
+		this.dialogo.setVisible(true);
 	}
 
 	@Override
@@ -115,5 +115,28 @@ public class VistaGrafica implements IVista {
 	
 	public void setDisplay() {
 		this.display = new Displayer();
+		this.display.send(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sendMensaje();
+			}
+			
+		});
+	}
+
+	private void sendMensaje() {
+		SwingUtilities.invokeLater(() -> {
+			String text = this.display.getInputText().strip();
+			
+			// Si el mensaje no esta vacío, lo envía.
+			if (text != "") {
+				this.controller.sendMensaje(text);
+			}
+        });
+	}
+
+	private void setDialogo() {
+		this.dialogo = new DialogoBJ("Apuestas", "Ingrese su apuesta:", this.controller);
 	}
 }

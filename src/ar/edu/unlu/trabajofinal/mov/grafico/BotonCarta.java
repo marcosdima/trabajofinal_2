@@ -23,7 +23,7 @@ public class BotonCarta extends JPanel {
 		
 		this.content = text;
 		this.imageManager = imageManager;
-		this.carta = imageManager.randCard(this.getWidth(), this.getHeight()).getImage(); 
+		this.carta = imageManager.randCard().getImage(); 
 		
 		this.setLayout(new BorderLayout());
 		
@@ -45,7 +45,7 @@ public class BotonCarta extends JPanel {
 		Image image;
         
 		if (this.onClick) {
-			image = imageManager.imagen("CUBIERTA", this.getWidth(), this.getHeight()).getImage();
+			image = imageManager.imagenCarta("CUBIERTA").getImage();
 	        //g.fillRect( 0, 0, this.getWidth(), this.getHeight());
 	        textLabel.setText(content);
 		}

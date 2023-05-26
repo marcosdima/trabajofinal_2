@@ -24,4 +24,6 @@ public interface IModelo extends IObservableRemoto {
 
 	// Retorna la info de los jugadores de la mesa.
 	ArrayList<IJugador> infoDeMesa() throws RemoteException;
+	
+	public void mensaje(String contenido, int idPlayer) throws RemoteException;
 }

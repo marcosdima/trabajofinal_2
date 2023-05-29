@@ -4,13 +4,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import ar.edu.unlu.trabajofinal.Evento;
 import ar.edu.unlu.trabajofinal.IJugador;
-import ar.edu.unlu.trabajofinal.mov.grafico.DialogoBJ;
+import ar.edu.unlu.trabajofinal.mov.grafico.Dialogo;
+import ar.edu.unlu.trabajofinal.mov.grafico.DialogoType;
 import ar.edu.unlu.trabajofinal.mov.grafico.Displayer;
 import ar.edu.unlu.trabajofinal.mov.grafico.Frame;
 import ar.edu.unlu.trabajofinal.mov.grafico.ImageManager;
@@ -22,20 +25,20 @@ public class VistaGrafica implements IVista {
 	private Frame framePrincipal;
 	private ImageManager imageManager;
 	private Displayer display;
-	private DialogoBJ dialogo;
+	private Dialogo dialogo = new Dialogo("Hide", "Hide", DialogoType.SIMPLEINPUT);
 
 	public VistaGrafica(Controlador cc) {
 		this.setController(cc);
 		this.setFramePrincipal();
 		this.setImageManager("files/images/cartas", "default");
 		this.setDisplay();
-		this.setDialogo();
 		this.framePrincipal.turnOn();
 	}
 	
 	@Override
 	public void menuPrincipal() {
 		MenuPrincipal menu = new MenuPrincipal(this.imageManager);
+		dialogo.setVisible(false);
 		//this.framePrincipal.add(this.menuPrincipal);
 		this.framePrincipal.add(menu);
 		// Jugar
@@ -58,23 +61,74 @@ public class VistaGrafica implements IVista {
 
 	@Override
 	public void ingresoDeApuesta(String texto) {
+		this.setDialogo("Apuestas", texto, DialogoType.SIMPLEINPUT);
 		this.dialogo.setVisible(true);
+		this.dialogo.event(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				controller.apostar(dialogo.getContent());
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}});
 	}
 
 	@Override
-	public void preguntaQuieroOtra(String texto) {
-		SwingUtilities.invokeLater(() -> {
-			boolean retorno = false;
-			
-			// 0 = Si; 1 = No
-			int respuesta = JOptionPane.showConfirmDialog(null, texto, "Pregunta", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+	public void siONo(String texto, Evento event) {
+		this.setDialogo("Pregunta", texto, DialogoType.YESORNO);
+		this.dialogo.setVisible(true);
+		this.dialogo.event(new MouseListener() {
 
-			if (respuesta == 0) {
-				retorno = true;
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				controller.askSomething(dialogo.getContent(), event);		
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
 			}
 			
-			controller.otraCarta(retorno);
-        });
+		});
 	}
 
 	@Override
@@ -83,7 +137,7 @@ public class VistaGrafica implements IVista {
 		this.framePrincipal.add(panelMesa);
 		panelMesa.updateUI();
 	}
-
+	
 	@Override
 	public String formularioDeIngreso() {
 		String res = JOptionPane.showInputDialog(null, "Ingrese su nombre", "Nombre", JOptionPane.INFORMATION_MESSAGE);	
@@ -136,7 +190,12 @@ public class VistaGrafica implements IVista {
         });
 	}
 
-	private void setDialogo() {
-		this.dialogo = new DialogoBJ("Apuestas", "Ingrese su apuesta:", this.controller);
+	private void setDialogo(String title, String encabezado, DialogoType type) {
+		Dialogo aux = new Dialogo(title, encabezado, type);
+		int x = this.dialogo.getX();
+		int y = this.dialogo.getY();
+		this.dialogo.setVisible(false);
+		this.dialogo = aux;
+		this.dialogo.setLocation(x, y);
 	}
 }

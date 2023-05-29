@@ -1,6 +1,9 @@
 package ar.edu.unlu.trabajofinal.mov.grafico;
 
 import ar.edu.unlu.trabajofinal.*;
+
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 //import ar.edu.unlu.mazo.*;
 import java.util.ArrayList;
 
@@ -22,7 +25,41 @@ public class TestGrafico {
 		PanelMesa panel = new PanelMesa(jugadores, img, new Displayer());
 		
 		//f.add(panel);
-		f.turnOn();
+		//f.turnOn();
+		Dialogo d = new Dialogo("Test", "Test encabezado", DialogoType.YESORNO);
+		d.setVisible(true);
+		d.event(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.print(d.getContent());
+				d.setTitle("cas");
+				d.setSchema("Paso", DialogoType.SIMPLEINPUT);
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				System.out.println(d.getX() + " " + d.getY());
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}});
 		
 		//Dialogo d = new Dialogo("test", "ahora es personal");
 		

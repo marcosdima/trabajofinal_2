@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 import ar.edu.unlu.rmimvc.cliente.IControladorRemoto;
 import ar.edu.unlu.rmimvc.observer.IObservableRemoto;
 import ar.edu.unlu.trabajofinal.Data;
+import ar.edu.unlu.trabajofinal.Evento;
 import ar.edu.unlu.trabajofinal.IJugador;
 import ar.edu.unlu.trabajofinal.IModelo;
 
@@ -51,7 +52,13 @@ public class Controlador implements IControladorRemoto {
 		}
 	}
 	
-	public void otraCarta(boolean decision) {
+	public void otraCarta(String text) {
+		boolean decision = false;
+
+		if (text == "1") {
+			decision = true;
+		}
+		
 		if (decision) {
 			this.quieroOtraCarta();
 		}
@@ -60,6 +67,44 @@ public class Controlador implements IControladorRemoto {
 		}
 	}
 
+	public void preguntaSiSigoJugando(String text) {
+		boolean decision = false;
+
+		if (text == "1") {
+			decision = true;
+		}
+		
+		if (decision) {
+			try {
+				this.modelo.sigoJugando(this.id);
+			} catch (RemoteException e) {
+				System.out.println("Error al intentar seguir jugando!");
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				this.modelo.eliminarPlayer(this.id);
+			} catch (RemoteException e) {
+				System.out.println("Error al eliminar al jugador!");
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	// Toma lo que recibe de la vista y lo redirije.
+	public void askSomething(String response, Evento evento) {
+		switch(evento) {
+		case REINICIODEMANO:
+			this.preguntaSiSigoJugando(response);
+			break;
+		case PREGUNTARPORCARTA:
+			this.otraCarta(response);
+			break;
+		default:
+			break;
+		}
+	}
+	
 	public void addVista(IVista vista) {
 		this.vistaPrincipal = vista;
 	}
@@ -123,8 +168,11 @@ public class Controlador implements IControladorRemoto {
 			String txt = data.evento().getMensaje();
 
 			switch(data.evento()) {
+				case INICIODEMANO:
+					this.vistaPrincipal.mostrarMensaje(txt);
+					break;
+			
 				case SOLICITARAPUESTAS:
-					
 					this.vistaPrincipal.ingresoDeApuesta(txt);
 					break;
 					
@@ -141,11 +189,15 @@ public class Controlador implements IControladorRemoto {
 					break;
 	
 				case PREGUNTARPORCARTA:
-					this.vistaPrincipal.preguntaQuieroOtra(txt);	
+					this.vistaPrincipal.siONo(txt, data.evento());;	
 					break;
 					
 				case FINDEMANO:
 					this.vistaPrincipal.mostrarMensaje(txt);
+					break;
+					
+				case REINICIODEMANO:
+					this.vistaPrincipal.siONo(txt, data.evento());
 					break;
 				
 				case FINDEJUEGO:
@@ -155,10 +207,6 @@ public class Controlador implements IControladorRemoto {
 					break;
 					
 				case ESOYAM:
-					this.vistaPrincipal.mostrarMensaje(txt);
-					break;
-					
-				case MSJ:
 					this.vistaPrincipal.mostrarMensaje(txt);
 					break;
 					

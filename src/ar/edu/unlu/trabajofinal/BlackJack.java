@@ -127,7 +127,7 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 
 	// Notifica a los observadores pasandole el objeto data (IJugador).
 	public void notificar(Data<IJugador> data) throws RemoteException {
-			this.notificarObservadores(data);
+		this.notificarObservadores(data);
 	}
 		
 	// Envía un msj a todos los jugadores.
@@ -140,11 +140,39 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 		this.notificarObservadores(mensajeFormateado);
 	}
 	
+	// El jugador sigue jugando.
+	public void sigoJugando(int playerId) throws RemoteException {
+		this.pickAPlayer(playerId).sigue();
+		this.preguntarSiSeJuega();
+	}
+	
+	// Elimina al jugador. 
+	public void eliminarPlayer(int idPlayer) throws RemoteException {
+		int contador = 0;
+		int index = 0;
+
+		for (JugadorBJ player : this.players) {
+			if (player.getID() == idPlayer) {
+				index = contador;
+				this.saveRank(player);
+			}
+			contador++;
+		}
+
+		this.players.remove(index);
+		this.notificar(new Data<IJugador>(Evento.FINDEJUEGO, null, idPlayer));
+	}
+	
 	// Rutina para iniciar la mano. Este start es peligroso, debería ser privado.
 	private void start() throws RemoteException {
 		this.ingresarListaDeEspera();
 		this.crupier.reset();
 		this.primeraMano();
+		
+		for (JugadorBJ player : this.players) {
+			this.notificar(new Data<IJugador>(Evento.INICIODEMANO, player, player.getID()));
+		}
+		
 		this.apuestas();
 	}
 
@@ -254,22 +282,53 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 
 	// Determina las ganancias y reinicia la mano.
 	private void finalDeMano() throws RemoteException {
-
 		this.crupier.repartirASiMismo();
 
+		// Reparte las ganancias y prepara a los jugadores para la siguiente mano.
 		for (JugadorBJ player : this.players) {
 			this.notificar(new Data<IJugador>(Evento.FINDEMANO, player, player.getID()));
 			this.crupier.determinarGanancia(player);
 			player.cobrar();
-			player.reset();
 		}
-
-		this.crupier.reset();
 		
+		this.preguntarSiSeJuega();
+	}
+	
+	// Busca al primer jugador que todavía no se le pregunto por si sigue jugando.
+	private void preguntarSiSeJuega() throws RemoteException {
+		boolean flagFound = false;
+		JugadorBJ playerAux = null;
+		
+		for (JugadorBJ player : this.players) {
+			if (!player.sigueJugando() && !flagFound) {
+				playerAux = player;
+				flagFound = true;
+			}
+		}
+		
+		if (flagFound) {
+			this.notificar(new Data<IJugador>(Evento.REINICIODEMANO, playerAux, playerAux.getID()));
+		} else {
+			this.restartMano();
+		}
+		
+	}
+
+	// Rutina para reiniciar la mano.
+	private void restartMano() throws RemoteException {
+		// Si hay jugadores.
 		if ((this.players.size() > 0) || (this.listaDeEspera.size() > 0)) {
+			
+			// Reseteo los estados de los jugadores.
+			for (JugadorBJ player : this.players) {
+				player.reset();
+			}
+			
 			this.start();
 		}
+		// Caso contrario resetea todo.
 		else {
+			this.crupier.reset();
 			this.setListaDeEspera();
 			this.setPlayers();
 		}
@@ -301,23 +360,6 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 		}
 		
 		return playerAux;
-	}
-	
-	// Elimina al jugador. 
-	private void eliminarPlayer(int idPlayer) throws RemoteException {
-		int contador = 0;
-		int index = 0;
-
-		for (JugadorBJ player : this.players) {
-			if (player.getID() == idPlayer) {
-				index = contador;
-				this.saveRank(player);
-			}
-			contador++;
-		}
-
-		this.players.remove(index);
-		this.notificar(new Data<IJugador>(Evento.FINDEJUEGO, null, idPlayer));
 	}
 	
 	// Ejecuta el comando ingresado.

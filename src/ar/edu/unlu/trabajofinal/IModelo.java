@@ -26,4 +26,9 @@ public interface IModelo extends IObservableRemoto {
 	ArrayList<IJugador> infoDeMesa() throws RemoteException;
 	
 	public void mensaje(String contenido, int idPlayer) throws RemoteException;
+	
+	public void sigoJugando(int playerId) throws RemoteException;
+	
+	// Elimina al jugador. 
+	public void eliminarPlayer(int idPlayer) throws RemoteException;
 }

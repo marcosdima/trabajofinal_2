@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ar.edu.unlu.tools.Escaner;
 import ar.edu.unlu.tools.Print;
+import ar.edu.unlu.trabajofinal.Evento;
 import ar.edu.unlu.trabajofinal.IJugador;
 
 public class VistaConsola implements IVista {
@@ -61,12 +62,12 @@ public class VistaConsola implements IVista {
 	}
 
 	@Override
-	public void preguntaQuieroOtra(String texto) {
+	public void siONo(String texto, Evento event) {
 		p.print(texto);
 		boolean quiere = this.escaner.siONo();
 		p.espacio();
 
-		this.controlador.otraCarta(quiere);
+		this.controlador.askSomething(Boolean.toString(quiere), event);
 	}
 
 	@Override

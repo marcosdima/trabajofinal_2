@@ -1,6 +1,9 @@
 package ar.edu.unlu.trabajofinal;
 
 public enum Evento {
+	// Inicio de mano.
+	INICIODEMANO("La mano va a comenzar."),
+	
 	// Apuestas.
 	SOLICITARAPUESTAS("Ingrese su apuesta:"),
 	APUESTAMINIMA("El monto ingresado es menor a la apuesta mínima. Recuerde que la apuesta mínima es de {apuesta_minima}"),
@@ -11,7 +14,8 @@ public enum Evento {
 	PREGUNTARPORCARTA("¿Quieres otra carta?"),
 	
 	// Finales.
-	FINDEMANO("La mano se terminó! Que arranque la siguiente..."),
+	FINDEMANO("La mano se terminó!"),
+	REINICIODEMANO("¿Seguis jugando?"),
 	FINDEJUEGO("Gracias por jugar!"),
 	
 	// Trucos.
@@ -28,9 +32,5 @@ public enum Evento {
 	
 	public String getMensaje() {
 		return this.mensaje;
-	}
-	
-	public void setMensaje(String msj) {
-		this.mensaje = msj;
 	}
 }

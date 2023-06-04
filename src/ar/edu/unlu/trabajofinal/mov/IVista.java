@@ -12,4 +12,5 @@ public interface IVista {
 	public void mostrarMesa(ArrayList<IJugador> mesa);
 	public String formularioDeIngreso();
 	public void mostrarMensaje(String msj);
+	public void rank();
 }

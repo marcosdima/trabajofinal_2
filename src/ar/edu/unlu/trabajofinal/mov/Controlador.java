@@ -2,6 +2,7 @@ package ar.edu.unlu.trabajofinal.mov;
 
 import java.rmi.RemoteException;
 //import java.util.ArrayList;
+import java.util.ArrayList;
 
 import ar.edu.unlu.rmimvc.cliente.IControladorRemoto;
 import ar.edu.unlu.rmimvc.observer.IObservableRemoto;
@@ -116,6 +117,18 @@ public class Controlador implements IControladorRemoto {
 			System.out.println("Error al enviar mensaje!");
 			e.printStackTrace();
 		}
+	}
+	
+	public ArrayList<String> getRank() {
+		ArrayList<String> res = new ArrayList<String>();
+		
+		try {
+			res = this.modelo.getRank();
+		} catch (RemoteException e) {			
+			res.add("Error en la coneccion!");
+		}
+		
+		return res;
 	}
 	
 	@Override

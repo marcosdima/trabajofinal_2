@@ -25,10 +25,15 @@ public interface IModelo extends IObservableRemoto {
 	// Retorna la info de los jugadores de la mesa.
 	ArrayList<IJugador> infoDeMesa() throws RemoteException;
 	
+	// Envía un msj a todos los jugadores.
 	public void mensaje(String contenido, int idPlayer) throws RemoteException;
 	
+	// El jugador sigue jugando.
 	public void sigoJugando(int playerId) throws RemoteException;
 	
 	// Elimina al jugador. 
 	public void eliminarPlayer(int idPlayer) throws RemoteException;
+	
+	// Devuelve el ranking.
+	public ArrayList<String> getRank() throws RemoteException;
 }

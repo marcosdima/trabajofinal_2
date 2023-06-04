@@ -163,6 +163,11 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 		this.notificar(new Data<IJugador>(Evento.FINDEJUEGO, null, idPlayer));
 	}
 	
+	// Devuelve el ranking.
+	public ArrayList<String> getRank() throws RemoteException {
+		return this.loadRank();
+	}
+	
 	// Rutina para iniciar la mano. Este start es peligroso, debería ser privado.
 	private void start() throws RemoteException {
 		this.ingresarListaDeEspera();
@@ -386,9 +391,21 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 	// Guarda el puntaje de player en el ranking.
 	private void saveRank(JugadorBJ player) {
 		try {
-			fileManager.addToRanking(player.getNombre(), player.getDinero(), this.MONTOINICIAL);
+			this.fileManager.addToRanking(player.getNombre(), player.getDinero(), this.MONTOINICIAL);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	// Retorna el ranking.
+	private  ArrayList<String> loadRank() {
+		ArrayList<String> res = null;
+		try {
+			res = this.fileManager.loadRanking();
+		} catch (IOException e) {
+			res = new ArrayList<String>();
+			res.add("Error al intentar cargar!");
+		}
+		return res;
 	}
 }

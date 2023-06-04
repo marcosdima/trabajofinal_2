@@ -19,13 +19,15 @@ import ar.edu.unlu.trabajofinal.mov.grafico.Frame;
 import ar.edu.unlu.trabajofinal.mov.grafico.ImageManager;
 import ar.edu.unlu.trabajofinal.mov.grafico.MenuPrincipal;
 import ar.edu.unlu.trabajofinal.mov.grafico.PanelMesa;
+import ar.edu.unlu.trabajofinal.mov.grafico.VentanaRank;
 
 public class VistaGrafica implements IVista {
 	private Controlador controller;
 	private Frame framePrincipal;
 	private ImageManager imageManager;
 	private Displayer display;
-	private Dialogo dialogo = new Dialogo("Hide", "Hide", DialogoType.SIMPLEINPUT);
+	private Dialogo dialogo;
+	private VentanaRank ranking;
 
 	public VistaGrafica(Controlador cc) {
 		this.setController(cc);
@@ -38,20 +40,26 @@ public class VistaGrafica implements IVista {
 	@Override
 	public void menuPrincipal() {
 		MenuPrincipal menu = new MenuPrincipal(this.imageManager);
-		dialogo.setVisible(false);
-		//this.framePrincipal.add(this.menuPrincipal);
+
 		this.framePrincipal.add(menu);
-		// Jugar
+		// Jugar.
 		menu.getJugar().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
             	controller.startGame();
             }
 		});
 
-		// Salir
+		// Salir.
 		menu.getSalir().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
             	System.exit(0);
+            }
+		});
+		
+		// Rank.
+		menu.getRank().addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+            	rank();
             }
 		});
 		
@@ -62,9 +70,8 @@ public class VistaGrafica implements IVista {
 	@Override
 	public void ingresoDeApuesta(String texto) {
 		this.setDialogo("Apuestas", texto, DialogoType.SIMPLEINPUT);
-		this.dialogo.setVisible(true);
-		this.dialogo.event(new MouseListener() {
 
+		this.dialogo.event(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
@@ -78,6 +85,7 @@ public class VistaGrafica implements IVista {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				dialogo.setVisible(false);
 				controller.apostar(dialogo.getContent());
 			}
 
@@ -97,7 +105,7 @@ public class VistaGrafica implements IVista {
 	@Override
 	public void siONo(String texto, Evento event) {
 		this.setDialogo("Pregunta", texto, DialogoType.YESORNO);
-		this.dialogo.setVisible(true);
+
 		this.dialogo.event(new MouseListener() {
 
 			@Override
@@ -113,6 +121,7 @@ public class VistaGrafica implements IVista {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				dialogo.setVisible(false);
 				controller.askSomething(dialogo.getContent(), event);		
 			}
 
@@ -179,6 +188,16 @@ public class VistaGrafica implements IVista {
 		});
 	}
 
+	@Override
+	public void rank() {
+		if (this.ranking == null) {
+			this.ranking = new VentanaRank(this.controller.getRank());
+		}
+		else {
+			this.ranking.setVisible(true);
+		}
+	}
+	
 	private void sendMensaje() {
 		SwingUtilities.invokeLater(() -> {
 			String text = this.display.getInputText().strip();
@@ -192,10 +211,18 @@ public class VistaGrafica implements IVista {
 
 	private void setDialogo(String title, String encabezado, DialogoType type) {
 		Dialogo aux = new Dialogo(title, encabezado, type);
-		int x = this.dialogo.getX();
-		int y = this.dialogo.getY();
-		this.dialogo.setVisible(false);
+		
+		int x = 0;
+		int y = 0;
+		
+		if (this.dialogo != null) {
+			x = this.dialogo.getX();
+			y = this.dialogo.getY();
+		}
+		
 		this.dialogo = aux;
 		this.dialogo.setLocation(x, y);
+		
+		this.dialogo.setVisible(true);
 	}
 }

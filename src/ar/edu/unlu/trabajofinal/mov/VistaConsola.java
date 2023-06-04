@@ -121,4 +121,10 @@ public class VistaConsola implements IVista {
 		p.justPrint(msj);
 		p.espacio();
 	}
+
+	@Override
+	public void rank() {
+		// TODO Auto-generated method stub
+		
+	}
 }

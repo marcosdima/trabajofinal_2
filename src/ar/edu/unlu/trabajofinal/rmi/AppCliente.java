@@ -12,7 +12,6 @@ import ar.edu.unlu.rmimvc.RMIMVCException;
 import ar.edu.unlu.rmimvc.Util;
 import ar.edu.unlu.rmimvc.cliente.Cliente;
 
-
 public class AppCliente {
 
 	public static void main(String[] args) {

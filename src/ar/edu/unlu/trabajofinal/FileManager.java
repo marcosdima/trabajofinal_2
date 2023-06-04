@@ -82,7 +82,7 @@ public class FileManager {
 		File archivo = new File(this.RANKING);
 		PrintWriter escritor = new PrintWriter(archivo);
 		String nuevo = nombre + "," + (i - montoInicial);
-			
+
 		if (!archivo.exists()) {
 			archivo.createNewFile();
 		}
@@ -96,7 +96,7 @@ public class FileManager {
 			this.ordenarRanking(actual);
 			
 			while (actual.size() > 10) {
-				actual.remove(0);
+				actual.remove(actual.size() - 1);
 			}
 			
 			for (int e = (actual.size() - 1); e >= 0; e--) {
@@ -110,27 +110,24 @@ public class FileManager {
 	// Seguir con esto.
 	private void ordenarRanking(ArrayList<String> lista) throws IOException {
 		float puntos = 0;
-		float puntoAux = 0;
+		float puntosAux = 0;
 		int largo = lista.size();
 		String contenedor;
 		String[] linea;
 		String[] lineaAux;
 		
 		for (int i = 0; i < (largo - 1); i++) {
-			linea = lista.get(i).split(",");
-			puntos = Float.valueOf(linea[1].trim());
-			
-			for (int e = i; e < largo; e++) {
-				lineaAux = lista.get(e).split(",");
-				puntoAux = Float.valueOf(lineaAux[1].trim());
+			for (int e = 0; e < (largo - 1); e++) {
+				linea = lista.get(e).split(",");
+				puntos = Float.valueOf(linea[1].trim());
 				
-				if (puntos > puntoAux) {
-					contenedor = lista.get(i);
-					lista.set(i, lista.get(e));
-					lista.set(e, contenedor);
-				}
-				else {
-					linea = lineaAux;
+				lineaAux = lista.get(e + 1).split(",");
+				puntosAux = Float.valueOf(lineaAux[1].trim());
+				
+				if (puntos < puntosAux) {
+					contenedor = lista.get(e);
+					lista.set(e, lista.get(e + 1));
+					lista.set(e + 1, contenedor);
 				}
 			}
 		}

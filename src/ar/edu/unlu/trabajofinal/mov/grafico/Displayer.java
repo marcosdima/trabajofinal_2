@@ -59,6 +59,8 @@ public class Displayer extends JPanel {
 		
 		String contenido = espacio + "\n" + " " + txt + "\n" + espacio + "\n";
 		this.chat.setText(history + contenido);
+		
+		this.chat.setCaretPosition(this.chat.getDocument().getLength());
 	}
 	
 	public void setChat() {

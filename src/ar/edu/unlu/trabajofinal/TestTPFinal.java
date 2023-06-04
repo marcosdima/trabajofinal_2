@@ -6,7 +6,8 @@ public class TestTPFinal {
 		// En el título del menú principal podría poner 'Black Jack' y dos cartas random que combinadas hagan bj.
 		// Falta sistema de guardado.
 		// Falta kickear al que pierde.
-		// Hay que hacer que se muestren siempre los últimos mensajes.
 		// Error al salir de una partida con más de un jugador. El error es que si el primero responde si, no le pregunta al siguiente.
+		// Que hacer cuando un jugador tiene 5 o más cartas.
+		// Hay un error con los mensjaes, hay que investigar.
 	}
 }

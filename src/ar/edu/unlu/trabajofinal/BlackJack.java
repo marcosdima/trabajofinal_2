@@ -287,6 +287,8 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 
 	// Determina las ganancias y reinicia la mano.
 	private void finalDeMano() throws RemoteException {
+		ArrayList<Integer> eliminated = new ArrayList<>();
+		
 		this.crupier.repartirASiMismo();
 
 		// Reparte las ganancias y prepara a los jugadores para la siguiente mano.
@@ -294,9 +296,20 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 			this.notificar(new Data<IJugador>(Evento.FINDEMANO, player, player.getID()));
 			this.crupier.determinarGanancia(player);
 			player.cobrar();
+			
+			if (player.getDinero() <= 0) {
+				eliminated.add(player.getID());
+			}
 		}
 		
-		this.preguntarSiSeJuega();
+		// Elimina a quien haya perdido.
+		for (int index : eliminated) {
+			this.eliminarPlayer(index);
+		}
+		
+		if (this.players.size() > 0) {
+			this.preguntarSiSeJuega();	
+		}
 	}
 	
 	// Busca al primer jugador que todavía no se le pregunto por si sigue jugando.

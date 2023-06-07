@@ -19,7 +19,7 @@ public class BotonCarta extends JPanel {
 	private Image carta;
 	
 	public BotonCarta(String text, ImageManager imageManager) {
-		Fuente fuente = new Fuente("files/fonts/Pokemon Classic.ttf", 15);
+		Fuente fuente = new Fuente("files/fonts/Pokemon Classic.ttf", 21);
 		
 		this.content = text;
 		this.imageManager = imageManager;

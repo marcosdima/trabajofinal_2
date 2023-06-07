@@ -84,7 +84,7 @@ public class Controlador implements IControladorRemoto {
 			}
 		} else {
 			try {
-				this.modelo.eliminarPlayer(this.id);
+				this.modelo.abandono(id);
 			} catch (RemoteException e) {
 				System.out.println("Error al eliminar al jugador!");
 				e.printStackTrace();

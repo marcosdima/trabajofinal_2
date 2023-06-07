@@ -32,7 +32,7 @@ public interface IModelo extends IObservableRemoto {
 	public void sigoJugando(int playerId) throws RemoteException;
 	
 	// Elimina al jugador. 
-	public void eliminarPlayer(int idPlayer) throws RemoteException;
+	public void abandono(int idPlayer) throws RemoteException;
 	
 	// Devuelve el ranking.
 	public ArrayList<String> getRank() throws RemoteException;

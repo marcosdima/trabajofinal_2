@@ -26,7 +26,7 @@ public class MenuPrincipal extends JPanel {
 		this.setLayout(new BorderLayout(100,100));
 		this.setButtons(imageManager);
 		this.setVacio();
-		this.setMenu();
+		this.setMenu(imageManager);
 	}
 
 	public BotonCarta getJugar() {
@@ -61,7 +61,7 @@ public class MenuPrincipal extends JPanel {
 		this.add(vacio3, BorderLayout.SOUTH);
 	}
 
-	private void setMenu() {
+	private void setMenu(ImageManager imageManager) {
 		JPanel panelBotones = new JPanel();
 		JPanel title = new JPanel();
 		
@@ -70,9 +70,11 @@ public class MenuPrincipal extends JPanel {
 		JLabel menuPrincipalText = new JLabel("Menu Principal");
 		menuPrincipalText.setHorizontalAlignment(JLabel.CENTER);
 		menuPrincipalText.setVerticalAlignment(JLabel.BOTTOM);
-		Fuente customFont = new Fuente("files/fonts/Pokemon Classic.ttf", 50);
+		Fuente customFont = new Fuente("files/fonts/Pokemon Classic.ttf", 60);
 		menuPrincipalText.setFont(customFont.font());
 		title.add(menuPrincipalText);
+		title.add(new JLabel(imageManager.imagenCarta("AS_PICA")));
+		title.add(new JLabel(imageManager.imagenCarta("CABALLERO_PICA")));
 		
 		// Preparo los botones.
 		panelBotones.setLayout(new GridLayout(1, 5, 10, 10));

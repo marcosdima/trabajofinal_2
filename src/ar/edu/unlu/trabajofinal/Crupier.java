@@ -3,6 +3,7 @@ package ar.edu.unlu.trabajofinal;
 import ar.edu.unlu.mazo.Carta;
 import ar.edu.unlu.mazo.ContenidoDeCarta;
 import ar.edu.unlu.mazo.MazoDeNaipes;
+import ar.edu.unlu.mazo.Palo;
 
 public class Crupier extends Jugador {
 	private static final long serialVersionUID = 1L;
@@ -85,8 +86,21 @@ public class Crupier extends Jugador {
 
 	// Rutina para dar las primeras dos cartas.
 	public void primeraMano(Jugador player) {
-		this.darCarta(player, true);
-		this.darCarta(player);
+		// Nombres de prueba.
+		if (player.getNombre().contains("bj")) {
+			player.addCarta(new Carta(Palo.CORAZON, ContenidoDeCarta.AS));
+			player.addCarta(new Carta(Palo.CORAZON, ContenidoDeCarta.DIEZ));
+		}
+		else if (player.getNombre().contains("555")) {
+			player.addCarta(new Carta(Palo.CORAZON, ContenidoDeCarta.AS));
+			player.addCarta(new Carta(Palo.CORAZON, ContenidoDeCarta.AS));
+			player.addCarta(new Carta(Palo.CORAZON, ContenidoDeCarta.AS));
+			player.addCarta(new Carta(Palo.CORAZON, ContenidoDeCarta.DOS));
+		}
+		else {
+			this.darCarta(player, true);
+			this.darCarta(player);
+		}
 	}
 
 	// Descubre las cartas dadas vuelta.

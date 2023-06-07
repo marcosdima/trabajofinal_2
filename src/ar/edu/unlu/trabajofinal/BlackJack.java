@@ -146,8 +146,14 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 		this.preguntarSiSeJuega();
 	}
 	
+	// Jugador abandona.
+	public void abandono(int idPlayer) throws RemoteException {
+		this.eliminarPlayer(idPlayer);
+		this.preguntarSiSeJuega();
+	}
+	
 	// Elimina al jugador. 
-	public void eliminarPlayer(int idPlayer) throws RemoteException {
+	private void eliminarPlayer(int idPlayer) throws RemoteException {
 		int contador = 0;
 		int index = 0;
 
@@ -262,6 +268,9 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 			else {
 				this.notificar(new Data<IJugador>(Evento.PREGUNTARPORCARTA, player, player.getID()));
 			}
+		}
+		else if (player.getCartas().size() == 5) {
+			flagTerminoTurno = true;
 		}
 		else {
 			switch (estado) {

@@ -8,6 +8,9 @@ public class Intencion implements Serializable {
 	private String[] out = {"salir", "exit", "slir", "salida", "ecsit", "renuncio", "me retiro", "no juego más", "no juego mas", "quit", "me rindo", "rindo", "rendir"};
 	private String[] positive = {"si", "s", "yes", "y", "sisi", "sis", "yyes"};
 	private String[] negative = {"no", "n", "nop", "nope", "nono", "nain", "nel"};
+	private String[] guardar = {"almacenar progreso", "conservar avance", "mantener estado de juego", "retener etapa", "preservar desarrollo", "guardar fase",
+								"archivar nivel", "save", "guardar", "guard", "saver", "gurdar", "guadar", "guar", "guord", "gardar", "gard", "guerder",
+								"guardar partida", "save game", "saving", "game save", "progress save"};
 	// Truco para el ingreso de dinero.
 	private String[] esoyam = {"esoyam", "dame plata", "platita", "biyuya", "plata", "una monedita por favor"};
 	private String[] help = {"help", "aiuda", "ayuda", "comandos", "cmd", "-help", "help!"};
@@ -49,5 +52,9 @@ public class Intencion implements Serializable {
 	// Pide ayuda.
 	public boolean help(String input) {
 		return this.recorrer(input, this.help);
+	}
+
+	public boolean save(String input) {
+		return this.recorrer(input, this.guardar);
 	}
 }

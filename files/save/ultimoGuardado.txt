@@ -1,0 +1,2 @@
+Pepe,1000.0,false,0,false,[SIETE_DIAMANTE_true@TRES_PICA_false]
+[NUEVE_PICA_true@REINA_DIAMANTE_false]

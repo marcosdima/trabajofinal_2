@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import ar.edu.unlu.tools.Intencion;
-
+import ar.edu.unlu.mazo.Carta;
 import ar.edu.unlu.rmimvc.observer.ObservableRemoto;
 
 public class BlackJack extends ObservableRemoto implements IModelo {
@@ -16,9 +16,9 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 	final private int APUESTAMINIMA = 100;
 	private int cantPlayers = 0;
 	private Crupier crupier;
-	public ArrayList<JugadorBJ> players;
+	private ArrayList<JugadorBJ> players;
 	private Queue<JugadorBJ> listaDeEspera;
-	public FileManager fileManager; 
+	private FileManager fileManager; 
 	private PartidaGuardada partidaGuardada = null;
 
 	public BlackJack() {
@@ -431,6 +431,9 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 			this.notificar(new Data<IJugador>(Evento.ESOYAM, playerAux, playerAux.getID()));
 			playerAux.giveDinero(1000);
 		}
+		else if (mean.save(input)) {
+			this.savePartida();
+		}
 		else {
 			this.notificar(new Data<IJugador>(Evento.APUESTANOVALIDA, playerAux, playerAux.getID()));
 		}
@@ -457,5 +460,70 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 			res.add("Error al intentar cargar!");
 		}
 		return res;
+	}
+
+	// Guarda la partida.
+	private void savePartida() {
+		String line = "";
+		String cartasAux = "";
+		String montoAux = "";
+		ArrayList<String> guardado = new ArrayList<String>();
+		
+		// Formateo a cada jugador para el guardado.
+		for (JugadorBJ p : this.players) {
+			
+			// Seteo el monto apostado.
+			if (p.yaAposto()) {
+				montoAux = String.valueOf(p.getApuesta().getMonto());
+			}
+			else {
+				montoAux = "0";
+			}
+			
+			line =  p.getNombre() + "," + 
+					p.getDinero() + "," + 
+					String.valueOf(p.yaAposto()) + "," + 
+					montoAux + "," +
+					String.valueOf(p.yaJugo()) + ",";
+			
+			
+			
+			// Preparo las cartas.
+			cartasAux = this.formateoDeCartas(p.getCartas());
+			
+			// Appendeo final.
+			line += cartasAux;
+			
+			guardado.add(line);
+		}
+		
+		cartasAux = this.formateoDeCartas(this.crupier.getCartas());
+		guardado.add(cartasAux);
+		
+		try {
+			this.fileManager.save("ultimoGuardado", guardado);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	// Formateo de cartas para el guardado.
+	private String formateoDeCartas(ArrayList<Carta> cartas) {
+		// Preparo las cartas.
+		String cartasAux = "[";
+		
+		for (Carta c : cartas) {
+			cartasAux +=    c.getContenido().toString() + "_" + 
+							c.getPaloDeCarta().toString() + "_" +
+							String.valueOf(c.esVisible()) + "@";
+		}
+		
+		// Saco la última @.
+		cartasAux = cartasAux.substring(0, cartasAux.length() - 1);
+		
+		cartasAux += "]";
+		
+		return cartasAux;
 	}
 }

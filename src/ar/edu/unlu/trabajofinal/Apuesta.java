@@ -28,4 +28,8 @@ public class Apuesta implements Serializable {
 	public String getApostador() {
 		return this.apostador;
 	}
+	
+	public float getMonto() {
+		return this.monto;
+	}
 }

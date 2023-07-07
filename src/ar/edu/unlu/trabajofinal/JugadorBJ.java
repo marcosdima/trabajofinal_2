@@ -12,6 +12,10 @@ public class JugadorBJ extends Jugador {
 	public JugadorBJ(String nombre, int dinero) {
 		super(nombre, dinero);
 	}
+	
+	public JugadorBJ(String nombre, float dinero) {
+		super(nombre, dinero);
+	}
 
 	// Si puede, realiza una apuesta.
 	public void apostar(float monto) {
@@ -83,5 +87,9 @@ public class JugadorBJ extends Jugador {
 			}
 		}
 		return (flagCubierta && this.cantidadDeCartas() == 2);
+	}
+
+	public ApuestaBJ getApuesta() {
+		return this.apuesta;
 	}
 }

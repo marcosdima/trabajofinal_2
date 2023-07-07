@@ -11,7 +11,7 @@ public class Jugador extends Persona implements IJugador{
 	private int id = 0;
 	private int puntaje = 0;
 
-	public Jugador(String nombre, int dinero) {
+	public Jugador(String nombre, float dinero) {
 		super(nombre, dinero);
 	}
 

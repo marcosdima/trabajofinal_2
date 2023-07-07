@@ -46,6 +46,25 @@ public class FileManager {
 		return retorno;
 	}
 	
+	public ArrayList<String> carga() throws IOException {
+		File archivo = new File(this.SAVE + "ultimoGuardado.txt");
+		FileReader fr = new FileReader(archivo);;	
+		BufferedReader reader = new BufferedReader(fr);
+		ArrayList<String> retorno = new ArrayList<String>();
+		String linea = reader.readLine();
+
+		if (archivo.exists()) {
+			while ((linea != null)) {
+				retorno.add(linea);
+				linea = reader.readLine();
+			}
+
+			reader.close();
+		}
+		
+		return retorno;
+	}
+	
 	public ArrayList<String> load(String tag) throws IOException {
 		return this.carga(SAVE + tag);
 	} 
@@ -106,8 +125,7 @@ public class FileManager {
 		
 		escritor.close();
 	}
-
-	// Seguir con esto.
+	
 	private void ordenarRanking(ArrayList<String> lista) throws IOException {
 		float puntos = 0;
 		float puntosAux = 0;
@@ -132,4 +150,5 @@ public class FileManager {
 			}
 		}
 	}
+
 }

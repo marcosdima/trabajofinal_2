@@ -1,15 +1,22 @@
 package ar.edu.unlu.trabajofinal.mov;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import javax.swing.JPanel;
 import ar.edu.unlu.trabajofinal.Evento;
 import ar.edu.unlu.trabajofinal.IJugador;
 import ar.edu.unlu.trabajofinal.mov.grafico.Dialogo;
@@ -20,6 +27,7 @@ import ar.edu.unlu.trabajofinal.mov.grafico.ImageManager;
 import ar.edu.unlu.trabajofinal.mov.grafico.MenuPrincipal;
 import ar.edu.unlu.trabajofinal.mov.grafico.PanelMesa;
 import ar.edu.unlu.trabajofinal.mov.grafico.VentanaRank;
+import ar.edu.unlu.trabajofinal.mov.grafico.Fuente;
 
 public class VistaGrafica implements IVista {
 	private Controlador controller;
@@ -52,7 +60,8 @@ public class VistaGrafica implements IVista {
 		// Salir.
 		menu.getSalir().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-            	System.exit(0);
+            	exit();
+				System.exit(0);
             }
 		});
 		
@@ -63,8 +72,22 @@ public class VistaGrafica implements IVista {
             }
 		});
 		
-		menu.updateUI();
+		// Config.
+		menu.getConfig().addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+            	menuConfiguracion();
+            }
+		});
+		
+		// Carga.
+		menu.getLoad().addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				//ventanaDeCarga();
+				controller.cargarPartida();
+            }
+		});
 
+		menu.updateUI();
 	}
 
 	@Override
@@ -224,5 +247,91 @@ public class VistaGrafica implements IVista {
 		this.dialogo.setLocation(x, y);
 		
 		this.dialogo.setVisible(true);
+	}
+
+	@Override
+	public void menuConfiguracion() {
+		Fuente fontTitle = new Fuente(60);
+		
+		JPanel menuConfig = new JPanel();
+		JPanel buttons = new JPanel();
+		
+		JButton cambiarSkin = new JButton("Cambiar Skin");
+		
+		JLabel title = new JLabel("Configuracion");
+		title.setFont(fontTitle.font());
+		title.setHorizontalAlignment(JLabel.CENTER);
+		
+		menuConfig.setLayout(new BorderLayout());
+		buttons.setLayout(new GridLayout(1,1));
+		
+		// Cambio de skin de carta
+		JPanel skin = new JPanel();
+		skin.setLayout(new FlowLayout());
+		JLabel as = new JLabel(this.imageManager.imagenCarta("AS_CORAZON"));
+		JLabel cubierta = new JLabel(this.imageManager.imagenCarta("CUBIERTA"));
+		cambiarSkin.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+
+				// Estos son para crear la lista de archivos disponibles.
+				File dir = new File("files/images/cartas");
+				File[] archivos = dir.listFiles();
+				String[] strs = new String[archivos.length];
+				int contador = 0;				
+				
+				for (File archivo : archivos) {
+					strs[contador] = archivo.getName();
+					contador++;
+				}
+
+				String choose = (String) JOptionPane.showInputDialog(
+						null, 
+						"Seleccione un estilo", "Cartas", 
+						JOptionPane.QUESTION_MESSAGE, 
+						null,
+						strs,
+						strs[0]
+				);
+				
+				if (choose != null) {
+					imageManager.setFolderCarta(choose);
+					menuConfiguracion();	
+				}
+					
+			}
+
+		});
+
+		skin.add(cambiarSkin);
+		skin.add(as);
+		skin.add(cubierta);
+		
+		menuConfig.add(title, BorderLayout.NORTH);
+		menuConfig.add(skin, BorderLayout.CENTER);
+		
+		this.framePrincipal.add(menuConfig);
+		
+		menuConfig.updateUI();
+	}
+
+	@Override
+	public void exit() {
+		this.controller.exit();
+	}
+
+	@Override
+	public void ventanaDeCarga() {
+		JPanel clean = new JPanel();
+		Fuente fontTitle = new Fuente(30);
+		JLabel text = new JLabel("Espera a que lxs demás jugadorxs se conecten!");
+		
+		text.setFont(fontTitle.font());
+		text.setHorizontalAlignment(JLabel.CENTER);
+		text.setVerticalAlignment(JLabel.CENTER);
+		
+		clean.add(text);
+		this.framePrincipal.add(clean);
+		clean.updateUI();
 	}
 }

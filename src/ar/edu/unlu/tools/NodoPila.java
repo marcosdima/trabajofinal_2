@@ -54,7 +54,6 @@ public class NodoPila<Cosa> implements Serializable{
 		}
 
 		return res;
-
 	}
 
 	public boolean esInicial() {

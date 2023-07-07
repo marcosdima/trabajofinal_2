@@ -149,6 +149,25 @@ public class Controlador implements IControladorRemoto {
 		this.modelo = (IModelo) arg0;
 	}
 
+	public void cargarPartida() {
+		try {
+			this.id = this.modelo.loadGame();
+			this.inGame();
+			this.updateMesa();
+			this.modelo.tryToStart();
+		} catch (RemoteException e) {
+			System.out.println("Error al intentar cargar partida!");
+		}
+	}
+	
+	public void exit() {
+		try {
+			this.modelo.removerObservador(this);
+		} catch (RemoteException e) {
+			System.out.println("No se pudo remover al observador!");
+		}
+	}
+
 	private void updateMesa() {
 		try {
 			this.vistaPrincipal.mostrarMesa(this.modelo.infoDeMesa());

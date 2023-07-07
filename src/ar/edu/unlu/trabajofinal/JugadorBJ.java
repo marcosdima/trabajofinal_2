@@ -1,5 +1,7 @@
 package ar.edu.unlu.trabajofinal;
 
+import ar.edu.unlu.mazo.Carta;
+
 public class JugadorBJ extends Jugador {
 	private static final long serialVersionUID = 1L;
 	private boolean yaAposto = false;
@@ -71,5 +73,15 @@ public class JugadorBJ extends Jugador {
 
 	public boolean sigueJugando() {
 		return this.sigueJugando;
+	}
+
+	public boolean primeraMano() {
+		boolean flagCubierta = false;
+		for (Carta c : this.getCartas()) {
+			if (!c.esVisible()) {
+				flagCubierta = true;
+			}
+		}
+		return (flagCubierta && this.cantidadDeCartas() == 2);
 	}
 }

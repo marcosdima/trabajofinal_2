@@ -5,10 +5,14 @@ public class TesterMazo {
 	public static void main(String[] args) {
 
 		MazoDeNaipes m = new MazoDeNaipes();
-		System.out.println(m.agarrarCarta().getDesc());
-		System.out.println(m.agarrarCarta().getDesc());
-		System.out.println(m.getDescarte().getTope().getDesc());
+		m.barajar();
+		System.out.println(m.getBaraja().getCant());
+		System.out.println("3 doritos después...");
+		m.remove(new Carta(Palo.CORAZON, ContenidoDeCarta.OCHO));
+		System.out.println(m.getBaraja().getCant());
 
+
+		
 	}
 
 }

@@ -60,4 +60,10 @@ public abstract class Mazo extends ConjuntoDeCartas {
 	public void setDescarte() {
 		this.descarte = new Pila<>(this.getTam());
 	}
+
+	public void remove(Carta c) {
+		this.baraja.remove(c);
+		this.descarte.apilar(c);
+	}
+	
 }

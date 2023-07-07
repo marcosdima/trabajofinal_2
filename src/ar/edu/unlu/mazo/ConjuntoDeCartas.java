@@ -14,6 +14,10 @@ public class ConjuntoDeCartas implements Serializable {
 		this.cartas = new ArrayList<>(tam);
 	}
 
+	public ConjuntoDeCartas() {
+		this (5);
+	}
+	
 	public void addCarta(Carta carta) {
 		this.cartas.add(carta);
 	}

@@ -1,6 +1,7 @@
 package ar.edu.unlu.trabajofinal;
 
 import ar.edu.unlu.mazo.Carta;
+import ar.edu.unlu.mazo.ConjuntoDeCartas;
 import ar.edu.unlu.mazo.ContenidoDeCarta;
 import ar.edu.unlu.mazo.MazoDeNaipes;
 import ar.edu.unlu.mazo.Palo;
@@ -92,9 +93,9 @@ public class Crupier extends Jugador {
 			player.addCarta(new Carta(Palo.CORAZON, ContenidoDeCarta.DIEZ));
 		}
 		else if (player.getNombre().contains("555")) {
-			player.addCarta(new Carta(Palo.CORAZON, ContenidoDeCarta.AS));
-			player.addCarta(new Carta(Palo.CORAZON, ContenidoDeCarta.AS));
-			player.addCarta(new Carta(Palo.CORAZON, ContenidoDeCarta.AS));
+			player.addCarta(new Carta(Palo.DIAMANTE, ContenidoDeCarta.DOS));
+			player.addCarta(new Carta(Palo.TREBOL, ContenidoDeCarta.DOS));
+			player.addCarta(new Carta(Palo.PICA, ContenidoDeCarta.DOS));
 			player.addCarta(new Carta(Palo.CORAZON, ContenidoDeCarta.DOS));
 		}
 		else {
@@ -164,5 +165,11 @@ public class Crupier extends Jugador {
 		this.barajar();
 		this.setPuntaje(0);
 		this.vaciarMano();
+	}
+
+	public void removeCards(ConjuntoDeCartas descarte) {
+		for (Carta c : descarte.getCartas()) {
+			this.mazo.remove(c);
+		}
 	}
 }

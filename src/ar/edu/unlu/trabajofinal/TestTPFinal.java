@@ -3,7 +3,12 @@ package ar.edu.unlu.trabajofinal;
 public class TestTPFinal {
 
 	public static void main(String[] args) {
-		// Falta sistema de guardado.
-		// Que hacer cuando un jugador tiene 5 o más cartas.
+		// Menu de configuración.
+		// Falta el 'help'.
+		// Seguir testeando sitema de guardado.
+		// Sistema de eliminar las cartas de la baraja.
+
+		
+		
 	}
 }

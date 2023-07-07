@@ -16,9 +16,10 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 	final private int APUESTAMINIMA = 100;
 	private int cantPlayers = 0;
 	private Crupier crupier;
-	private ArrayList<JugadorBJ> players;
+	public ArrayList<JugadorBJ> players;
 	private Queue<JugadorBJ> listaDeEspera;
-	private FileManager fileManager; 
+	public FileManager fileManager; 
+	private PartidaGuardada partidaGuardada = null;
 
 	public BlackJack() {
 		this.crupier = new Crupier();
@@ -35,7 +36,7 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 
 		if (!this.full()) {
 			newPlayer = new JugadorBJ(name, this.MONTOINICIAL);
-			this.listaDeEspera.add(newPlayer);
+			this.addToListaDeEspera(newPlayer);
 			newPlayer.setID(this.cantPlayers);
 			this.cantPlayers++;
 			idAux = newPlayer.getID();
@@ -44,6 +45,10 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 		return idAux;
 	}
 
+	public void addToListaDeEspera(JugadorBJ py) {
+		this.listaDeEspera.add(py);
+	}
+	
 	// Registra la apuesta del jugador con el id dado.s
 	@Override
 	public void registrarApuesta(String monto, int idPlayer) throws RemoteException {
@@ -84,8 +89,17 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 
 	// Método que se utiliza para iniciar el juego en caso de que sea el primer jugador en ingresar.
 	@Override
-	public void tryToStart() throws RemoteException {
-		if (this.players.size() == 0) {
+	public void tryToStart() throws RemoteException {	
+		if (this.partidaGuardada != null && this.partidaGuardada.full()) {
+			// Todo para preparar la partida guardada.
+			this.ingresarListaDeEspera();
+			this.crupier.setMano(this.partidaGuardada.getCartasDelCrupier());
+			this.crupier.barajar();
+			this.crupier.removeCards(this.partidaGuardada.getDescarte());
+			this.partidaGuardada = null;
+			this.apuestas();
+		}
+		else if (this.players.size() == 0 && this.partidaGuardada == null) {
 			this.start();
 		}
 	}
@@ -152,6 +166,26 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 		this.preguntarSiSeJuega();
 	}
 	
+	// Rutina para cargar partidas.
+	public int loadGame() throws RemoteException {
+		// Esto esta mal!!
+		int idAux = this.cantPlayers;
+
+		if (this.partidaGuardada == null) {
+			this.partidaGuardada = new PartidaGuardada(this, this.fileManager);
+		}
+		
+		this.partidaGuardada.setPlayer(idAux);
+		this.cantPlayers++;
+		
+		return idAux;
+	}
+
+	// Devuelve el ranking.
+	public ArrayList<String> getRank() throws RemoteException {
+		return this.loadRank();
+	}
+	
 	// Elimina al jugador. 
 	private void eliminarPlayer(int idPlayer) throws RemoteException {
 		int contador = 0;
@@ -168,12 +202,7 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 		this.players.remove(index);
 		this.notificar(new Data<IJugador>(Evento.FINDEJUEGO, null, idPlayer));
 	}
-	
-	// Devuelve el ranking.
-	public ArrayList<String> getRank() throws RemoteException {
-		return this.loadRank();
-	}
-	
+		
 	// Rutina para iniciar la mano. Este start es peligroso, debería ser privado.
 	private void start() throws RemoteException {
 		this.ingresarListaDeEspera();
@@ -256,10 +285,9 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 	// Se fija la condición de la mano de 'player'.
 	private void turnoDe(JugadorBJ player) throws RemoteException {
 		EstadoDeMano estado = this.crupier.getEstado(player);
-		boolean primeraMano = (player.cantidadDeCartas() == 2);
 		boolean flagTerminoTurno = false;
 
-		if (primeraMano) {
+		if (player.primeraMano()) {
 			this.crupier.mostrar(player);
 
 			if (estado == EstadoDeMano.BLACKJACK) {

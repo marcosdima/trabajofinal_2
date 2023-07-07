@@ -47,6 +47,7 @@ public class VistaConsola implements IVista {
 			
 			case 4:
 				p.print("Hasta luego!");
+				this.exit();
 				System.exit(0);
 				break;	
 		}			
@@ -125,6 +126,23 @@ public class VistaConsola implements IVista {
 	@Override
 	public void rank() {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void menuConfiguracion() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void exit() {
+		this.controlador.exit();
+	}
+
+	@Override
+	public void ventanaDeCarga() {
+		System.out.println("Aca debería estar la ventana de carga!");
 		
 	}
 }

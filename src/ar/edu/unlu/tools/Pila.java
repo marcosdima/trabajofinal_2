@@ -46,17 +46,7 @@ public class Pila<Cosa> implements Serializable {
 
 	// Retorna true si el tope es nulo.
 	public boolean estaVacia() {
-
-		boolean res = false;
-
-		if (this.tope == null) {
-
-			res = true;
-
-		}
-
-		return res;
-
+		return this.nroNodos == 0;
 	}
 
 	// Retorna true si esta llena.
@@ -112,19 +102,15 @@ public class Pila<Cosa> implements Serializable {
 	public void pasarContenido(Pila<Cosa> pila) {
 
 		boolean vacia = this.estaVacia();
-		pila = new Pila<>(this.tam);
+		int auxInt = this.nroNodos;
+		pila.vaciar();
 
 		if ((!vacia)) {
-
-			for (int i = 0; i < this.nroNodos; i++) {
-
-				pila.apilar(this.tope.getElemento());
+			for (int i = 0; i < auxInt; i++) {
+				pila.apilar(this.getTope());
 				this.desapilar();
-
 			}
-
 		}
-
 	}
 
 	// Retorna true si esta pila y la que pasan por parámetro tienen el mismo tamaño.
@@ -140,4 +126,24 @@ public class Pila<Cosa> implements Serializable {
 		this.tope = null;
 	}
 
+	// Remueve la primera aparición de c en la Pila.
+	public void remove(Cosa c) {
+		Pila<Cosa> pilaAux = new Pila<Cosa>(this.nroNodos);
+		boolean found = false;
+	
+		while (this.tope != null && this.tope.getElemento() != null) {
+
+			if ((!found) && (this.getTope().toString().equals(c.toString()))) {
+				found = true;
+				this.desapilar();
+			} 
+			else {
+
+				pilaAux.apilar(this.getTope());
+				this.desapilar();
+			}
+		}
+
+		pilaAux.pasarContenido(this);
+	}
 }

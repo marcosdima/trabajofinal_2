@@ -36,4 +36,6 @@ public interface IModelo extends IObservableRemoto {
 	
 	// Devuelve el ranking.
 	public ArrayList<String> getRank() throws RemoteException;
+	
+	public int loadGame() throws RemoteException;
 }

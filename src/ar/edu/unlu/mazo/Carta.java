@@ -58,9 +58,15 @@ public class Carta implements Serializable {
 	}
 
 	public String getIdentificador() {
-
 		return (this.getContenido() + "_" + this.getPaloDeCarta());
-
+	}
+	
+	public String toString() {
+		return this.getDesc();
+	}
+	
+	public boolean equals(Object c) {	
+		return (this.toString() == c.toString());
 	}
 
 }

@@ -75,4 +75,10 @@ public class Jugador extends Persona implements IJugador{
 		
 		return cartas;
 	}
+
+	
+	public void setMano(ConjuntoDeCartas mano) {
+		this.mano = mano;
+	}
+
 }

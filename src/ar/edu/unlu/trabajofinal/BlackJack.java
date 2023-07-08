@@ -16,8 +16,8 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 	final private int APUESTAMINIMA = 100;
 	private int cantPlayers = 0;
 	private Crupier crupier;
-	private ArrayList<JugadorBJ> players;
-	private Queue<JugadorBJ> listaDeEspera;
+	public ArrayList<JugadorBJ> players;
+	public Queue<JugadorBJ> listaDeEspera;
 	private FileManager fileManager; 
 	private PartidaGuardada partidaGuardada = null;
 
@@ -263,10 +263,11 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 	}
 
 	// Carga los jugadores de la lista de espera.
-	private void ingresarListaDeEspera() {
+	public void ingresarListaDeEspera() {
 		JugadorBJ playerAux = null;
+		int largo = this.listaDeEspera.size();
 
-		for(int i = 0; i < this.listaDeEspera.size(); i++) {
+		for(int i = 0; i < largo; i++) {
 			playerAux = this.listaDeEspera.poll();
 			this.players.add(playerAux);
 		}

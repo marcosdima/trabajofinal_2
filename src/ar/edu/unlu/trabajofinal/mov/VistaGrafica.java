@@ -82,7 +82,7 @@ public class VistaGrafica implements IVista {
 		// Carga.
 		menu.getLoad().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				//ventanaDeCarga();
+				ventanaDeCarga();
 				controller.cargarPartida();
             }
 		});

@@ -153,7 +153,6 @@ public class Controlador implements IControladorRemoto {
 		try {
 			this.id = this.modelo.loadGame();
 			this.inGame();
-			this.updateMesa();
 			this.modelo.tryToStart();
 		} catch (RemoteException e) {
 			System.out.println("Error al intentar cargar partida!");

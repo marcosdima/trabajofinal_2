@@ -1,14 +1,13 @@
 package ar.edu.unlu.trabajofinal;
 
+import java.rmi.RemoteException;
+
 public class TestTPFinal {
 
 	public static void main(String[] args) {
 		// Menu de configuración.
 		// Falta el 'help'.
-		// Seguir testeando sitema de guardado.
-		// Sistema de eliminar las cartas de la baraja.
-
-		
+		// Error al guardar dos jugadores. Al cargar no carga los dos.
 		
 	}
 }

@@ -16,7 +16,6 @@ public class MenuPrincipal extends JPanel {
 	
 	private JPanel menu = new JPanel();
 	private BotonCarta jugar;
-	private BotonCarta config;
 	private BotonCarta rank;
 	private BotonCarta load;
 	private BotonCarta salir;
@@ -31,10 +30,6 @@ public class MenuPrincipal extends JPanel {
 
 	public BotonCarta getJugar() {
 		return jugar;
-	}
-
-	public BotonCarta getConfig() {
-		return config;
 	}
 
 	public BotonCarta getRank() {
@@ -61,7 +56,7 @@ public class MenuPrincipal extends JPanel {
 		this.add(vacio3, BorderLayout.SOUTH);
 	}
 
-	private void setMenu(ImageManager imageManager) {
+	public void setMenu(ImageManager imageManager) {
 		JPanel panelBotones = new JPanel();
 		JPanel title = new JPanel();
 		
@@ -77,7 +72,7 @@ public class MenuPrincipal extends JPanel {
 		title.add(new JLabel(imageManager.imagenCarta("CABALLERO_PICA")));
 		
 		// Preparo los botones.
-		panelBotones.setLayout(new GridLayout(1, 5, 10, 10));
+		panelBotones.setLayout(new GridLayout(1, 4, 10, 10));
 		for (BotonCarta bt : this.botones) {
 			panelBotones.add(bt);
 		}
@@ -91,19 +86,17 @@ public class MenuPrincipal extends JPanel {
 
 	private void setButtons(ImageManager imageManager) {
 		this.jugar = new BotonCarta("Jugar", imageManager);
-		this.config = new BotonCarta("Config", imageManager);
 		this.rank = new BotonCarta("Ranking", imageManager);
 		this.load = new BotonCarta("Load", imageManager);
 		this.salir = new BotonCarta("Salir", imageManager);
 		
 		Rand random = new Rand();
-		this.botones = new BotonCarta[5];
+		this.botones = new BotonCarta[4];
 		int[] lista = random.randomList(this.botones.length);
 		
 		this.botones[lista[0] - 1] = this.jugar;
-		this.botones[lista[1] - 1] = this.config;
-		this.botones[lista[2] - 1] = this.rank;
-		this.botones[lista[3] - 1] = this.load;
-		this.botones[lista[4] - 1] = this.salir;
+		this.botones[lista[1] - 1] = this.rank;
+		this.botones[lista[2] - 1] = this.load;
+		this.botones[lista[3] - 1] = this.salir;
 	}
 }

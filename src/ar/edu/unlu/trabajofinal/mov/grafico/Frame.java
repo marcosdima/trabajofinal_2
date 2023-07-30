@@ -2,10 +2,13 @@ package ar.edu.unlu.trabajofinal.mov.grafico;
 
 import java.awt.Color;
 import java.awt.Component;
+import javax.swing.JPanel;
 
 import javax.swing.JFrame;
 
 public class Frame extends JFrame {
+	
+	
 	private static final long serialVersionUID = 1L;
 	private Component lastComponent;
 	
@@ -36,6 +39,4 @@ public class Frame extends JFrame {
 		this.lastComponent = c;
 		return c;
 	}
-
-
 }

@@ -38,4 +38,6 @@ public interface IModelo extends IObservableRemoto {
 	public ArrayList<String> getRank() throws RemoteException;
 	
 	public int loadGame() throws RemoteException;
+	
+	public ArrayList<String> getHelp() throws RemoteException;
 }

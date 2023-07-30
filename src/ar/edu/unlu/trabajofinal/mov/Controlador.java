@@ -14,7 +14,6 @@ import ar.edu.unlu.trabajofinal.IModelo;
 public class Controlador implements IControladorRemoto {
 	private int id = -1; // -1 representa el nulo, ya que los id's siempre son positivos.
 	private IModelo modelo;
-	//private ArrayList<IVista> vistas;
 	private IVista vistaPrincipal;
 	private boolean flagInGame = false;
 	
@@ -167,6 +166,19 @@ public class Controlador implements IControladorRemoto {
 		}
 	}
 
+	public ArrayList<String> getHelp() {
+		ArrayList<String> res = new ArrayList<String>();
+		
+		try {
+			res = this.modelo.getHelp();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			res.add("Error en la conección!");
+		}
+		
+		return res;
+	}
+	
 	private void updateMesa() {
 		try {
 			this.vistaPrincipal.mostrarMesa(this.modelo.infoDeMesa());
@@ -174,7 +186,7 @@ public class Controlador implements IControladorRemoto {
 			System.out.println("Error update mesa");
 			e.printStackTrace();
 		}
-	} 
+	}
 	
 	private void quieroOtraCarta() {
 		try {
@@ -184,6 +196,7 @@ public class Controlador implements IControladorRemoto {
 		}
 	}
 
+	
 	private void noQuieroMas() {
 		try {
 			this.modelo.terminarTurnoA(this.id);
@@ -192,6 +205,7 @@ public class Controlador implements IControladorRemoto {
 		}
 	}
 
+	
 	private void update(Data<IJugador> data) {
 		this.updateMesa();
 		
@@ -247,9 +261,11 @@ public class Controlador implements IControladorRemoto {
 		}
 	}
 	
+	
 	private void offGame() {
 		this.flagInGame = false;
 	}
+	
 	
 	private void inGame() {
 		this.flagInGame = true;

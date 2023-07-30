@@ -8,8 +8,6 @@ import ar.edu.unlu.trabajofinal.IJugador;
 public interface IVista {
 	public void menuPrincipal();
 	
-	public void menuConfiguracion();
-	
 	public void ingresoDeApuesta(String texto);
 	
 	public void siONo(String texto, Evento event);

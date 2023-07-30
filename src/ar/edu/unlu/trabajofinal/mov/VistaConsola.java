@@ -130,12 +130,6 @@ public class VistaConsola implements IVista {
 	}
 
 	@Override
-	public void menuConfiguracion() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void exit() {
 		this.controlador.exit();
 	}

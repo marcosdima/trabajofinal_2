@@ -1,22 +1,26 @@
 package ar.edu.unlu.trabajofinal.mov;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
 import ar.edu.unlu.trabajofinal.Evento;
 import ar.edu.unlu.trabajofinal.IJugador;
 import ar.edu.unlu.trabajofinal.mov.grafico.Dialogo;
@@ -36,29 +40,31 @@ public class VistaGrafica implements IVista {
 	private Displayer display;
 	private Dialogo dialogo;
 	private VentanaRank ranking;
+	private MenuPrincipal menuPrincipal;
 
 	public VistaGrafica(Controlador cc) {
 		this.setController(cc);
 		this.setFramePrincipal();
 		this.setImageManager("files/images/cartas", "default");
 		this.setDisplay();
+		this.setBarra();
 		this.framePrincipal.turnOn();
 	}
 	
 	@Override
 	public void menuPrincipal() {
-		MenuPrincipal menu = new MenuPrincipal(this.imageManager);
+		this.menuPrincipal = new MenuPrincipal(this.imageManager);
 
-		this.framePrincipal.add(menu);
+		this.framePrincipal.add(menuPrincipal);
 		// Jugar.
-		menu.getJugar().addMouseListener(new MouseAdapter() {
+		menuPrincipal.getJugar().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
             	controller.startGame();
             }
 		});
 
 		// Salir.
-		menu.getSalir().addMouseListener(new MouseAdapter() {
+		menuPrincipal.getSalir().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
             	exit();
 				System.exit(0);
@@ -66,28 +72,21 @@ public class VistaGrafica implements IVista {
 		});
 		
 		// Rank.
-		menu.getRank().addMouseListener(new MouseAdapter() {
+		menuPrincipal.getRank().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
             	rank();
             }
 		});
-		
-		// Config.
-		menu.getConfig().addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-            	menuConfiguracion();
-            }
-		});
-		
+
 		// Carga.
-		menu.getLoad().addMouseListener(new MouseAdapter() {
+		menuPrincipal.getLoad().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				ventanaDeCarga();
 				controller.cargarPartida();
             }
 		});
 
-		menu.updateUI();
+		menuPrincipal.updateUI();
 	}
 
 	@Override
@@ -220,100 +219,6 @@ public class VistaGrafica implements IVista {
 			this.ranking.setVisible(true);
 		}
 	}
-	
-	private void sendMensaje() {
-		SwingUtilities.invokeLater(() -> {
-			String text = this.display.getInputText().strip();
-			
-			// Si el mensaje no esta vacío, lo envía.
-			if (text != "") {
-				this.controller.sendMensaje(text);
-			}
-        });
-	}
-
-	private void setDialogo(String title, String encabezado, DialogoType type) {
-		Dialogo aux = new Dialogo(title, encabezado, type);
-		
-		int x = 0;
-		int y = 0;
-		
-		if (this.dialogo != null) {
-			x = this.dialogo.getX();
-			y = this.dialogo.getY();
-		}
-		
-		this.dialogo = aux;
-		this.dialogo.setLocation(x, y);
-		
-		this.dialogo.setVisible(true);
-	}
-
-	@Override
-	public void menuConfiguracion() {
-		Fuente fontTitle = new Fuente(60);
-		
-		JPanel menuConfig = new JPanel();
-		JPanel buttons = new JPanel();
-		
-		JButton cambiarSkin = new JButton("Cambiar Skin");
-		
-		JLabel title = new JLabel("Configuracion");
-		title.setFont(fontTitle.font());
-		title.setHorizontalAlignment(JLabel.CENTER);
-		
-		menuConfig.setLayout(new BorderLayout());
-		buttons.setLayout(new GridLayout(1,1));
-		
-		// Cambio de skin de carta
-		JPanel skin = new JPanel();
-		skin.setLayout(new FlowLayout());
-		JLabel as = new JLabel(this.imageManager.imagenCarta("AS_CORAZON"));
-		JLabel cubierta = new JLabel(this.imageManager.imagenCarta("CUBIERTA"));
-		cambiarSkin.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent arg0) {
-
-				// Estos son para crear la lista de archivos disponibles.
-				File dir = new File("files/images/cartas");
-				File[] archivos = dir.listFiles();
-				String[] strs = new String[archivos.length];
-				int contador = 0;				
-				
-				for (File archivo : archivos) {
-					strs[contador] = archivo.getName();
-					contador++;
-				}
-
-				String choose = (String) JOptionPane.showInputDialog(
-						null, 
-						"Seleccione un estilo", "Cartas", 
-						JOptionPane.QUESTION_MESSAGE, 
-						null,
-						strs,
-						strs[0]
-				);
-				
-				if (choose != null) {
-					imageManager.setFolderCarta(choose);
-					menuConfiguracion();	
-				}
-					
-			}
-
-		});
-
-		skin.add(cambiarSkin);
-		skin.add(as);
-		skin.add(cubierta);
-		
-		menuConfig.add(title, BorderLayout.NORTH);
-		menuConfig.add(skin, BorderLayout.CENTER);
-		
-		this.framePrincipal.add(menuConfig);
-		
-		menuConfig.updateUI();
-	}
 
 	@Override
 	public void exit() {
@@ -333,5 +238,121 @@ public class VistaGrafica implements IVista {
 		clean.add(text);
 		this.framePrincipal.add(clean);
 		clean.updateUI();
+	}
+	
+	private void sendMensaje() {
+		SwingUtilities.invokeLater(() -> {
+			String text = this.display.getInputText().strip();
+			
+			// Si el mensaje no esta vacío, lo envía.
+			if (text != "") {
+				this.controller.sendMensaje(text);
+			}
+        });
+	}
+	
+	private void setDialogo(String title, String encabezado, DialogoType type) {
+		Dialogo aux = new Dialogo(title, encabezado, type);
+		
+		int x = 0;
+		int y = 0;
+		
+		if (this.dialogo != null) {
+			x = this.dialogo.getX();
+			y = this.dialogo.getY();
+		}
+		
+		this.dialogo = aux;
+		this.dialogo.setLocation(x, y);
+		
+		this.dialogo.setVisible(true);
+	}
+
+	private void setBarra() {
+		JMenuBar m = new JMenuBar();
+		JMenuItem help = new JMenuItem("Help");
+		JMenuItem skins = new JMenuItem("Skins");
+		
+		help.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {	
+				try {
+					help();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+			}
+		});
+		
+		skins.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// Estos son para crear la lista de archivos disponibles.
+				File dir = new File("files/images/cartas");
+				File[] archivos = dir.listFiles();
+				String[] strs = new String[archivos.length];
+				int contador = 0;				
+				
+				for (File archivo : archivos) {
+
+					strs[contador] = archivo.getName();
+					contador++;
+					
+				}
+
+				String choose = (String) JOptionPane.showInputDialog(
+						null, 
+						"Seleccione un estilo", "Cartas", 
+						JOptionPane.QUESTION_MESSAGE, 
+						null,
+						strs,
+						strs[0]
+				);
+				
+				if (choose != null) {
+					imageManager.setFolderCarta(choose);
+				}
+				
+				menuPrincipal.updateUI();
+			}
+		});
+		
+		m.add(help);
+		m.add(skins);
+		this.framePrincipal.setJMenuBar(m);	
+	}
+	
+	private void help() throws IOException {
+		JFrame help = new JFrame("Help");
+		
+		ArrayList<String> text = this.controller.getHelp();
+		JPanel panel = new JPanel();
+		
+		JTextArea texto = new JTextArea();		
+		
+		for (String line : text) {
+			if (line.startsWith("//")) {
+				texto.append(line.replaceAll("//", "") + '\n');
+				texto.append("\n");
+			}
+			else if (line.startsWith(">")) {
+				texto.append("\n");
+			}
+			else {
+				texto.append(line + '\n');
+			}
+		}
+		
+		texto.setFont(new Font("FreeMono", Font.ITALIC, 20));
+		texto.setEditable(false);
+
+		panel.add(texto);
+		panel.setBackground(new Color(255,255,255));
+		help.getContentPane().add(panel);
+		help.setSize(1200, 600);
+		help.setVisible(true);
+		
+		texto.updateUI();
 	}
 }

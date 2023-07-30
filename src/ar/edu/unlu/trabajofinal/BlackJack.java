@@ -186,6 +186,19 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 		return this.loadRank();
 	}
 	
+	// Devuelve el texto de 'help'.
+	public ArrayList<String> getHelp() throws RemoteException {
+		ArrayList<String> res = new ArrayList<String>();
+		
+		try {
+			res = this.fileManager.loadHelp();
+		} catch (IOException e) {
+			res.add("No pudimos cargar el archivo! Intentelo de nuevo.");
+		}
+		
+		return res;
+	}
+	
 	// Elimina al jugador. 
 	private void eliminarPlayer(int idPlayer) throws RemoteException {
 		int contador = 0;

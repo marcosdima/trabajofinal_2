@@ -11,7 +11,7 @@ public class FileManager {
 	
 	private final String RANKING = "files/rank/ranking.txt";
 	private final String SAVE = "files/save/";
-	private final String HELP = "files/gelp/help.txt";
+	private final String HELP = "files/help/help.txt";
 	
 	public void save(String tag, ArrayList<String> guardado) throws IOException {
 		File archivo = new File(this.SAVE + tag + ".txt");

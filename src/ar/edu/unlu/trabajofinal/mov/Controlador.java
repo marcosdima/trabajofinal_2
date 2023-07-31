@@ -160,6 +160,7 @@ public class Controlador implements IControladorRemoto {
 	
 	public void exit() {
 		try {
+			this.modelo.abandono(this.id);
 			this.modelo.removerObservador(this);
 		} catch (RemoteException e) {
 			System.out.println("No se pudo remover al observador!");

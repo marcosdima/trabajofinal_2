@@ -27,6 +27,10 @@ public class JugadorBJ extends Jugador {
 		}
 	}
 
+	public void allIn() {
+		this.apostar(this.getDinero());
+	}
+	
 	// El jugador gano con BJ.
 	public void blackjack() {
 		this.apuesta.blackJack();

@@ -1,3 +1,2 @@
-Jose,900.0,false,0,false,[SIETE_CORAZON_true@TRES_CORAZON_false]
-Koko,1000.0,false,0,false,[REINA_PICA_true@AS_DIAMANTE_false]
-[CINCO_TREBOL_true@SIETE_TREBOL_false]
+***,1000.0,false,0,false,[OCHO_DIAMANTE_true@CABALLERO_PICA_false]
+[NUEVE_CORAZON_true@CUATRO_PICA_false]

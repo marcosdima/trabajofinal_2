@@ -34,6 +34,9 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 		JugadorBJ newPlayer = null;
 		int idAux = -1;
 
+		// Para que no se rompa en caso de guardar.
+		name = name.replace(",", "*");
+		
 		if (!this.full()) {
 			newPlayer = new JugadorBJ(name, this.MONTOINICIAL);
 			this.addToListaDeEspera(newPlayer);
@@ -200,21 +203,33 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 		return res;
 	}
 	
+	// Carga los jugadores de la lista de espera.
+	public void ingresarListaDeEspera() {
+		JugadorBJ playerAux = null;
+		int largo = this.listaDeEspera.size();
+
+		for(int i = 0; i < largo; i++) {
+			playerAux = this.listaDeEspera.poll();
+			this.players.add(playerAux);
+		}
+	}
+
 	// Elimina al jugador. 
 	private void eliminarPlayer(int idPlayer) throws RemoteException {
 		int contador = 0;
 		int index = 0;
-
-		for (JugadorBJ player : this.players) {
-			if (player.getID() == idPlayer) {
-				index = contador;
-				this.saveRank(player);
+		if (!this.players.isEmpty()) {
+			for (JugadorBJ player : this.players) {
+				if (player.getID() == idPlayer) {
+					index = contador;
+					this.saveRank(player);
+				}
+				contador++;
 			}
-			contador++;
+	
+			this.players.remove(index);
+			this.notificar(new Data<IJugador>(Evento.FINDEJUEGO, null, idPlayer));
 		}
-
-		this.players.remove(index);
-		this.notificar(new Data<IJugador>(Evento.FINDEJUEGO, null, idPlayer));
 	}
 		
 	// Rutina para iniciar la mano. Este start es peligroso, debería ser privado.
@@ -274,17 +289,6 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 			this.crupier.primeraMano(player);
 		}
 		this.crupier.primeraMano(this.crupier);
-	}
-
-	// Carga los jugadores de la lista de espera.
-	public void ingresarListaDeEspera() {
-		JugadorBJ playerAux = null;
-		int largo = this.listaDeEspera.size();
-
-		for(int i = 0; i < largo; i++) {
-			playerAux = this.listaDeEspera.poll();
-			this.players.add(playerAux);
-		}
 	}
 
 	// Setter del array de players.
@@ -449,6 +453,9 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 		else if (mean.save(input)) {
 			this.savePartida();
 		}
+		else if (mean.allIn(input)) {
+			this.pickAPlayer(playerId).allIn();
+		}
 		else {
 			this.notificar(new Data<IJugador>(Evento.APUESTANOVALIDA, playerAux, playerAux.getID()));
 		}
@@ -541,4 +548,5 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 		
 		return cartasAux;
 	}
+
 }

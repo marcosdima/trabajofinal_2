@@ -11,6 +11,10 @@ public class Intencion implements Serializable {
 	private String[] guardar = {"almacenar progreso", "conservar avance", "mantener estado de juego", "retener etapa", "preservar desarrollo", "guardar fase",
 								"archivar nivel", "save", "guardar", "guard", "saver", "gurdar", "guadar", "guar", "guord", "gardar", "gard", "guerder",
 								"guardar partida", "save game", "saving", "game save", "progress save"};
+	private String[] allin = {
+		    "apostar todo", "ir con todo", "todo adentro", "jugarlo todo", "jugarse todo", "arriesgar todo", "apuesta total", "apuesta máxima", "apuesta completa", "apuesta total", "apuesta máxima",
+		    "go all-in", "bet it all", "all-in bet", "put it all on", "risk it all", "bet everything", "bet the farm", "bet the house", "go big or go home", "all in", 
+		    "allin", "todo pa"};
 	// Truco para el ingreso de dinero.
 	private String[] esoyam = {"esoyam", "dame plata", "platita", "biyuya", "plata", "una monedita por favor"};
 	private String[] help = {"help", "aiuda", "ayuda", "comandos", "cmd", "-help", "help!"};
@@ -56,5 +60,9 @@ public class Intencion implements Serializable {
 
 	public boolean save(String input) {
 		return this.recorrer(input, this.guardar);
+	}
+	
+	public boolean allIn(String input) {
+		return this.recorrer(input, this.allin);
 	}
 }

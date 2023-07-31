@@ -1,5 +1,6 @@
 package ar.edu.unlu.trabajofinal.mov;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import ar.edu.unlu.trabajofinal.Evento;
@@ -23,4 +24,6 @@ public interface IVista {
 	public void ventanaDeCarga();
 	
 	public void exit();
+	
+	public void help();
 }

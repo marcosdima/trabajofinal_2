@@ -94,14 +94,14 @@ public class Controlador implements IControladorRemoto {
 	// Toma lo que recibe de la vista y lo redirije.
 	public void askSomething(String response, Evento evento) {
 		switch(evento) {
-		case REINICIODEMANO:
-			this.preguntaSiSigoJugando(response);
-			break;
-		case PREGUNTARPORCARTA:
-			this.otraCarta(response);
-			break;
-		default:
-			break;
+			case REINICIODEMANO:
+				this.preguntaSiSigoJugando(response);
+				break;
+			case PREGUNTARPORCARTA:
+				this.otraCarta(response);
+				break;
+			default:
+				break;
 		}
 	}
 	
@@ -196,7 +196,6 @@ public class Controlador implements IControladorRemoto {
 		}
 	}
 
-	
 	private void noQuieroMas() {
 		try {
 			this.modelo.terminarTurnoA(this.id);
@@ -205,7 +204,6 @@ public class Controlador implements IControladorRemoto {
 		}
 	}
 
-	
 	private void update(Data<IJugador> data) {
 		this.updateMesa();
 		
@@ -261,11 +259,9 @@ public class Controlador implements IControladorRemoto {
 		}
 	}
 	
-	
 	private void offGame() {
 		this.flagInGame = false;
 	}
-	
 	
 	private void inGame() {
 		this.flagInGame = true;

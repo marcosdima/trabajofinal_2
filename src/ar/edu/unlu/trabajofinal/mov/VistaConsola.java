@@ -25,7 +25,8 @@ public class VistaConsola implements IVista {
 		p.print("1. Jugar");
 		p.print("2. Ranking");
 		p.print("3. Cargar");
-		p.printConEspacio("4. Salir");
+		p.print("4. Help");
+		p.printConEspacio("5. Salir");
 		
 		int eleccion = this.escaner.nextInt();
 		p.espacio();
@@ -36,7 +37,7 @@ public class VistaConsola implements IVista {
 				break;
 				
 			case 2:
-				p.print("Algun día va a funcar...");
+				this.rank();
 				this.menuPrincipal();
 				break;
 		
@@ -46,6 +47,10 @@ public class VistaConsola implements IVista {
 				break;
 			
 			case 4:
+				this.help();
+				this.menuPrincipal();
+				break;	
+			case 5:
 				p.print("Hasta luego!");
 				this.exit();
 				System.exit(0);
@@ -64,11 +69,17 @@ public class VistaConsola implements IVista {
 
 	@Override
 	public void siONo(String texto, Evento event) {
+		String response = "0";
+		
 		p.print(texto);
 		boolean quiere = this.escaner.siONo();
 		p.espacio();
-
-		this.controlador.askSomething(Boolean.toString(quiere), event);
+	
+		if (quiere) {
+			response = "1";
+		}
+		
+		this.controlador.askSomething(response, event);
 	}
 
 	@Override
@@ -125,8 +136,14 @@ public class VistaConsola implements IVista {
 
 	@Override
 	public void rank() {
-		// TODO Auto-generated method stub
-		
+		int contador = 1;
+		for (String line : this.controlador.getRank()) {
+			p.printConEspacio(contador + "- " + line.replace(",", ": "));
+			contador++;
+		}
+		p.print("Ingrese Y para continuar...");
+		escaner.next();
+		p.espacio();
 	}
 
 	@Override
@@ -138,5 +155,25 @@ public class VistaConsola implements IVista {
 	public void ventanaDeCarga() {
 		System.out.println("Aca debería estar la ventana de carga!");
 		
+	}
+
+	@Override
+	public void help() {
+		for (String line : this.controlador.getHelp()) {
+			if (line.contains(">")) {
+				p.printConEspacio("");
+			}
+			else if (line.startsWith("//")) {
+				line = line.replace("//", "").toUpperCase();
+				p.printConEspacio(line);
+			}
+			else {
+				p.printConEspacio(line);
+			}
+		}
+		p.espacio();
+		p.print("Ingrese Y para continuar...");
+		escaner.next();
+		p.espacio();
 	}
 }

@@ -7,8 +7,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -51,6 +52,7 @@ public class VistaGrafica implements IVista {
 		this.framePrincipal.turnOn();
 	}
 	
+
 	@Override
 	public void menuPrincipal() {
 		this.menuPrincipal = new MenuPrincipal(this.imageManager);
@@ -89,6 +91,7 @@ public class VistaGrafica implements IVista {
 		menuPrincipal.updateUI();
 	}
 
+
 	@Override
 	public void ingresoDeApuesta(String texto) {
 		this.setDialogo("Apuestas", texto, DialogoType.SIMPLEINPUT);
@@ -123,6 +126,7 @@ public class VistaGrafica implements IVista {
 				
 			}});
 	}
+
 
 	@Override
 	public void siONo(String texto, Evento event) {
@@ -162,12 +166,14 @@ public class VistaGrafica implements IVista {
 		});
 	}
 
+	
 	@Override
 	public void mostrarMesa(ArrayList<IJugador> mesa) {
 		PanelMesa panelMesa = new PanelMesa(mesa, this.imageManager, this.display);
 		this.framePrincipal.add(panelMesa);
 		panelMesa.updateUI();
 	}
+	
 	
 	@Override
 	public String formularioDeIngreso() {
@@ -180,23 +186,34 @@ public class VistaGrafica implements IVista {
 		return res;
 	}
 
+	
 	@Override
 	public void mostrarMensaje(String msj) {
 		this.display.write(msj);
 	}
+	
 	
 	public void setController(Controlador controller) {
 		this.controller = controller;
 		controller.addVista(this);
 	}
 
+	
 	public void setFramePrincipal() {
 		this.framePrincipal = new Frame("Black Jack ♦♥♣♠");
+		this.framePrincipal.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                exit();
+            }
+        });
 	}
+	
 	
 	public void setImageManager(String directorio, String carpeta) {
 		this.imageManager = new ImageManager(directorio, carpeta);
 	}
+	
 	
 	public void setDisplay() {
 		this.display = new Displayer();
@@ -210,6 +227,7 @@ public class VistaGrafica implements IVista {
 		});
 	}
 
+	
 	@Override
 	public void rank() {
 		if (this.ranking == null) {
@@ -225,6 +243,7 @@ public class VistaGrafica implements IVista {
 		this.controller.exit();
 	}
 
+	
 	@Override
 	public void ventanaDeCarga() {
 		JPanel clean = new JPanel();
@@ -240,6 +259,7 @@ public class VistaGrafica implements IVista {
 		clean.updateUI();
 	}
 	
+	
 	private void sendMensaje() {
 		SwingUtilities.invokeLater(() -> {
 			String text = this.display.getInputText().strip();
@@ -251,6 +271,7 @@ public class VistaGrafica implements IVista {
         });
 	}
 	
+
 	private void setDialogo(String title, String encabezado, DialogoType type) {
 		Dialogo aux = new Dialogo(title, encabezado, type);
 		
@@ -268,6 +289,7 @@ public class VistaGrafica implements IVista {
 		this.dialogo.setVisible(true);
 	}
 
+	
 	private void setBarra() {
 		JMenuBar m = new JMenuBar();
 		JMenuItem help = new JMenuItem("Help");
@@ -276,12 +298,7 @@ public class VistaGrafica implements IVista {
 		help.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {	
-				try {
-					help();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}	
+				help();
 			}
 		});
 		
@@ -323,7 +340,7 @@ public class VistaGrafica implements IVista {
 		this.framePrincipal.setJMenuBar(m);	
 	}
 	
-	private void help() throws IOException {
+	public void help() {
 		JFrame help = new JFrame("Help");
 		
 		ArrayList<String> text = this.controller.getHelp();

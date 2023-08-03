@@ -52,8 +52,8 @@ public class AppCliente {
 		);
 		Controlador controlador = new Controlador();
 		Cliente c = new Cliente(ip, Integer.parseInt(port), ipServidor, Integer.parseInt(portServidor));
-		//VistaConsola vista = new VistaConsola(controlador);
-		VistaGrafica vista = new VistaGrafica(controlador);
+		VistaConsola vista = new VistaConsola(controlador);
+		//VistaGrafica vista = new VistaGrafica(controlador);
 		
 		try {
 			c.iniciar(controlador);

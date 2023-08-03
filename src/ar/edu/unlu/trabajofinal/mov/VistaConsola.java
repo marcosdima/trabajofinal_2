@@ -50,11 +50,15 @@ public class VistaConsola implements IVista {
 				this.help();
 				this.menuPrincipal();
 				break;	
+			
 			case 5:
 				p.print("Hasta luego!");
 				this.exit();
 				System.exit(0);
 				break;	
+			
+			default:
+				this.menuPrincipal();
 		}			
 	}
 
@@ -63,8 +67,9 @@ public class VistaConsola implements IVista {
 		p.print(texto);
 		String monto = this.escaner.next();
 		p.espacio();
-
-		this.controlador.apostar(monto);
+		
+		this.controlador.apostar(monto);			
+		
 	}
 
 	@Override
@@ -125,7 +130,6 @@ public class VistaConsola implements IVista {
 		p.printSeguido(conjuntoCartas, espacio);
 		p.printSeguido(conjuntoPuntajes, espacio);
 		p.printSeguido(dinerillo, espacio);
-
 	}
 
 	@Override

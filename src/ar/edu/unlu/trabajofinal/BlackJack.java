@@ -53,7 +53,7 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 		this.listaDeEspera.add(py);
 	}
 	
-	// Registra la apuesta del jugador con el id dado.s
+	// Registra la apuesta del jugador con el id dado.
 	@Override
 	public void registrarApuesta(String monto, int idPlayer) throws RemoteException {
 		try {
@@ -229,6 +229,12 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 	
 			this.players.remove(index);
 			this.notificar(new Data<IJugador>(Evento.FINDEJUEGO, null, idPlayer));
+		}
+		
+		// Si hay alguien en la lista de espera y este fue el último jugador en ingresar, inicia una nueva mano.
+		if (!this.listaDeEspera.isEmpty() && this.players.isEmpty()) {
+			this.ingresarListaDeEspera();
+			this.start();
 		}
 	}
 		

@@ -42,6 +42,9 @@ public class VistaGrafica implements IVista {
 	private Dialogo dialogo;
 	private VentanaRank ranking;
 	private MenuPrincipal menuPrincipal;
+	
+	private boolean isInMenu = false;
+	private ArrayList<IJugador> mesa;
 
 	public VistaGrafica(Controlador cc) {
 		this.setController(cc);
@@ -55,11 +58,14 @@ public class VistaGrafica implements IVista {
 	@Override
 	public void menuPrincipal() {
 		this.menuPrincipal = new MenuPrincipal(this.imageManager);
+		this.isInMenu = true;
 
 		this.framePrincipal.add(menuPrincipal);
+		
 		// Jugar.
 		menuPrincipal.getJugar().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				isInMenu = false;
             	controller.startGame();
             }
 		});
@@ -82,6 +88,7 @@ public class VistaGrafica implements IVista {
 		// Carga.
 		menuPrincipal.getLoad().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				isInMenu = false;
 				ventanaDeCarga();
 				controller.cargarPartida();
             }
@@ -165,6 +172,7 @@ public class VistaGrafica implements IVista {
 
 	@Override
 	public void mostrarMesa(ArrayList<IJugador> mesa) {
+		this.mesa = mesa;
 		PanelMesa panelMesa = new PanelMesa(mesa, this.imageManager, this.display);
 		this.framePrincipal.add(panelMesa);
 		panelMesa.updateUI();
@@ -314,6 +322,12 @@ public class VistaGrafica implements IVista {
 				
 				if (choose != null) {
 					imageManager.setFolderCarta(choose);
+				}
+				
+				if (isInMenu) {
+					menuPrincipal();
+				} else {
+					mostrarMesa(mesa);
 				}
 				
 				menuPrincipal.updateUI();

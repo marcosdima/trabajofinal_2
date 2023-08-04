@@ -1,10 +1,10 @@
-jo,1000.0
-Carlete,1000.0
 Carl,1000.0
+Carlete,1000.0
+Pepe,1200.0
 Salir,1250.0
 Carlo,2000.0
 Koko,3000.0
 Fifa,4500.0
-Firulais,5000.0
-Carl,5000.0
 Carlos,5000.0
+Carl,5000.0
+Firulais,5000.0

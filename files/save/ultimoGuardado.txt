@@ -1,2 +1,2 @@
-***,1000.0,false,0,false,[OCHO_DIAMANTE_true@CABALLERO_PICA_false]
-[NUEVE_CORAZON_true@CUATRO_PICA_false]
+marcos,900.0,false,0,false,[SIETE_CORAZON_true@REY_PICA_false]
+[OCHO_CORAZON_true@REINA_TREBOL_false]

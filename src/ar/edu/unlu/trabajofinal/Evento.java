@@ -18,8 +18,9 @@ public enum Evento {
 	REINICIODEMANO("¿Seguis jugando?"),
 	FINDEJUEGO("Gracias por jugar!"),
 	
-	// Trucos.
+	// Comandos.
 	ESOYAM("Ah sh*t, here we go again..."),
+	HELP(""),
 	
 	// Mensajes.
 	MSJ("Mensaje");

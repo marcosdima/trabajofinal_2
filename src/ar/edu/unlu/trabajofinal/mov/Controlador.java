@@ -206,7 +206,9 @@ public class Controlador implements IControladorRemoto {
 	}
 
 	private void update(Data<IJugador> data) {
-		this.updateMesa();
+		if (data.evento() != Evento.FINDEJUEGO) {
+			this.updateMesa();
+		}
 		
 		if (this.id == data.remitente()) {
 			String txt = data.evento().getMensaje();
@@ -252,6 +254,10 @@ public class Controlador implements IControladorRemoto {
 					
 				case ESOYAM:
 					this.vistaPrincipal.mostrarMensaje(txt);
+					break;
+					
+				case HELP:
+					this.vistaPrincipal.help();
 					break;
 					
 				default:

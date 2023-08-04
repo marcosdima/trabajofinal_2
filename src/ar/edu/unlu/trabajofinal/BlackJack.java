@@ -359,7 +359,8 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 			this.crupier.determinarGanancia(player);
 			player.cobrar();
 			
-			if (player.getDinero() <= 0) {
+			// Agrego a un array a los jugadores que no tienen la plata necesaria para jugar.
+			if (player.getDinero() < this.APUESTAMINIMA) {
 				eliminated.add(player.getID());
 			}
 		}
@@ -461,6 +462,9 @@ public class BlackJack extends ObservableRemoto implements IModelo {
 		}
 		else if (mean.allIn(input)) {
 			this.pickAPlayer(playerId).allIn();
+		}
+		else if (mean.help(input)) {
+			this.notificar(new Data<IJugador>(Evento.HELP, playerAux, playerAux.getID()));
 		}
 		else {
 			this.notificar(new Data<IJugador>(Evento.APUESTANOVALIDA, playerAux, playerAux.getID()));

@@ -324,6 +324,7 @@ public class VistaGrafica implements IVista {
 					imageManager.setFolderCarta(choose);
 				}
 				
+				// Actualiza la pantalla para que se vean los cambios.
 				if (isInMenu) {
 					menuPrincipal();
 				} else {

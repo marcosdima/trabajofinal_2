@@ -1,5 +1,5 @@
 # Trabajo Final
-  ##### Trabajo final de POO, 2do cuatrimestre de 2022.
+Trabajo final de POO, Cursado el 2do cuatrimestre de 2022.
 
 ## Datos
 + Alumno: Di Matteo Brambilla, Marcos.
@@ -8,7 +8,7 @@
 ## Juego: Black Jack
 
 ### Ejecución
-Para iniciar el juego hay que ejecutar **'BlackJackApp'**, que se encuentra dentro del paquete **'ar.edu.unlu.poo.trabajofinal'**. Pueden setear manualmente la interfaz de preferencia al manipular el booleano **'consola'**. Si es **'true'** se ejecutará en la consola, con **'false'** la interfaz gr
+Para iniciar el juego hay que ejecutar **'AppServidor'**, que se encuentra dentro del paquete **'ar.edu.unlu.poo.trabajofinal.rmi'**. Luego se dirige a la clase **'AppCliente'** (mismo paquete) e ingresa la información necesaria para que se cargue correctamente en el servidor. En esta misma clase puede modificar la interfaz a utilizar, para ello comente la actual y descomente la elegida. 
 
 ### Reglas
 + El objetivo es conseguir una mano con un puntaje lo más cercano a 21. Si te pasas de dicho número, perdés la mano. 
@@ -28,7 +28,7 @@ los que son necesarios para poder acceder a todas las funciones del juego:
 
 * 'salir': Sale del juego por completo, volviendo al menú principal, dejando la opción de guardar la
 partida.
-* 'renuncio': El jugador que ingresa este comando, sale de la partida, guardando su puntaje en el
+* 'save': Guarda la partida.
 ranking.
 *  '0': Ingresar 0 como monto de apuesta indica que no apostas en esta mano.
 
@@ -36,12 +36,7 @@ ranking.
 * 'esoyam': Le da 1000p al jugador que lo ingresa.
 + 'help': muestra el contenido del archivo 'help.txt'.
 
-### Nombres especiales
-Para propósitos de testing, hay nombres que presetean un conjunto de cartas al inicio. No es el nombre en sí, sino como empiezan. Si empieza con:
-+ 'bj': BlackJack asegurado para cada mano.
-+ '21': Arranca con tres cartas, dando como resultado 21 pts.
-+ 'pt': Empieza con un par bajo.
-
+Pueden encontrarse variaciones a los comandos dirigiendose a la clase **'Intencion'** en el paquete **'ar.edu.unlu.tools'**.
 
 # Créditos
 
